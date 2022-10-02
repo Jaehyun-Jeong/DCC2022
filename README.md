@@ -8,4 +8,4 @@
 [정재현](https://github.com/Jaehyun-Jeong)<br/>
 [주윤나](https://github.com/YunNa000)<br/>
 [제갈민](https://github.com/gaallmin)<br/>
-[채승민]()<br/>
+[채승민](https://github.com/Chessmini)<br/>
