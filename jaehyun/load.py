@@ -8,6 +8,7 @@ def Load(
 
     transform = transforms.Compose(
         [transforms.ToTensor(),
+         transforms.Resize((32, 32)),
          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
     batch_size = 4
@@ -23,7 +24,6 @@ def Load(
 
     testset = torchvision.datasets.ImageFolder(
             root=directory,
-            download=True,
             transform=transform)
     testloader = torch.utils.data.DataLoader(
             testset,
