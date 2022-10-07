@@ -31,4 +31,4 @@ def Load(
             shuffle=False,
             num_workers=2)
 
-    return trainloader, testloader
+    return trainset, trainloader, testset, testloader
