@@ -5,10 +5,6 @@ import torchvision
 import torchvision.transforms as transforms
 
 
-def loader(path):
-    return Image.open(path).convert('RGB')
-
-
 def Load(
         directory: str):
 
@@ -21,7 +17,6 @@ def Load(
 
     trainset = torchvision.datasets.ImageFolder(
             root=directory,
-            loader=loader,
             transform=transform)
     trainloader = torch.utils.data.DataLoader(
             trainset,
@@ -31,7 +26,6 @@ def Load(
 
     testset = torchvision.datasets.ImageFolder(
             root=directory,
-            loader=loader,
             transform=transform)
     testloader = torch.utils.data.DataLoader(
             testset,
