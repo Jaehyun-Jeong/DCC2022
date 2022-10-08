@@ -1,5 +1,33 @@
 # 정재현
 
+## clustering
+
+### K-means Clustering
+
+우리는 cluster가 3개임을 알고있다. (픽토그램, 일러스트레이션, 스케치) 그리고 여기에 실제 사진, 또는 다름 사진이 noise로 들어있다. 
+
+### Agglomerative clustering
+
+### Hierarchical Clustering and Dendrograms
+
+### DBSCAN
+
+## evaluate clustering
+
+DBSCAN은 cluster에 포함되지 않는 데이터를 얻을 수 있다.
+
+### ARI
+
+나쁘다고 판단. 실제로 필토그램, 일러스트레이션, 스케치에 대한 타켓 정보가 없으므로 실제 사진을 추출하는데 사용할 수 없다.
+
+### NMI
+
+ARI와 같은 이유로 나쁘다고 판단.
+
+### robustness-based
+
+### silhouette coefficient
+
 ## f1-score
 
 우선 f1-score를 이해하기 위해서는 TP, TN, FP, FN의 개념을 이해할 필요가 있다.<br/><br/>
