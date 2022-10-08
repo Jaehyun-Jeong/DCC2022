@@ -1,6 +1,12 @@
+from PIL import Image
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
+
+
+def loader(path):
+    return Image.open(path).convert('RGB')
 
 
 def Load(
@@ -15,6 +21,7 @@ def Load(
 
     trainset = torchvision.datasets.ImageFolder(
             root=directory,
+            loader=loader,
             transform=transform)
     trainloader = torch.utils.data.DataLoader(
             trainset,
@@ -24,6 +31,7 @@ def Load(
 
     testset = torchvision.datasets.ImageFolder(
             root=directory,
+            loader=loader,
             transform=transform)
     testloader = torch.utils.data.DataLoader(
             testset,
@@ -31,4 +39,4 @@ def Load(
             shuffle=False,
             num_workers=2)
 
-    return trainloader, testloader
+    return trainset, trainloader, testset, testloader

@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch import nn
 
 net = Model()
-train_loader, test_loader = Load("./dataset")
+_, train_loader, _, test_loader = Load("./dataset")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
