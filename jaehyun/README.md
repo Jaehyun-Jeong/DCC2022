@@ -72,8 +72,16 @@ $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
 
 ## Deep Learning
 
+### train, validation, test data
+
+![](static/train_valid_test.png)<br/>
+
+![](static/eval_model.png)<br/>
+
 ### MLP(Multi-Layer Perceptron), FC(fully connected) Model
+
 ![](static/model.png)<br/>
 
 ### Optimizer
+
 ![](static/optimizer.png)<br/>
