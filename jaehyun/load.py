@@ -18,6 +18,7 @@ class Load():
         self.batch_size =  batch_size
 
     def tensor(
+            self,
             directory: str):
 
         trainset = torchvision.datasets.ImageFolder(
@@ -41,6 +42,7 @@ class Load():
         return trainset, trainloader, testset, testloader
 
     def numpy(
+            self,
             directory: str):
 
         trainset, _, testset, _ = self.tensor(directory)
