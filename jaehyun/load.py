@@ -25,7 +25,7 @@ class Load():
                 root=directory,
                 transform=self.transform)
         dataloader = torch.utils.data.DataLoader(
-                trainset,
+                dataset,
                 batch_size=self.batch_size,
                 shuffle=True,
                 num_workers=2)
@@ -37,6 +37,6 @@ class Load():
             directory: str):
 
         dataset, dataloader = self.tensor(directory)
-        train_dataset_array = next(iter(trainloader))[0].numpy()
+        train_dataset_array = next(iter(dataloader))[0].numpy()
 
         return train_dataset_array
