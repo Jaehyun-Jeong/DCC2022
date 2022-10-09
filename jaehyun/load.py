@@ -45,6 +45,6 @@ class Load():
             self,
             directory: str):
 
-        trainset, _, testset, _ = self.tensor(directory)
+        trainset, trainloader, testset, testloader = self.tensor(directory)
 
-        return trainset.data.numpy(), testset.data.numpy()
+        return trainloader.data.numpy(), testloader.data.numpy()

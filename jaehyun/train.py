@@ -12,6 +12,8 @@ net = Model()
 Loader = Load()
 train_set, train_loader, _, test_loader = Loader.tensor("./dataset")
 
+numpy_data = Loader.numpy("./dataset")
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
