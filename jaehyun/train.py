@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 net = Model()
-_, train_loader, _, test_loader = Load("./dataset")
+train_set, train_loader, _, test_loader = Load("./dataset")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
