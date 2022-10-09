@@ -21,30 +21,22 @@ class Load():
             self,
             directory: str):
 
-        trainset = torchvision.datasets.ImageFolder(
+        dataset = torchvision.datasets.ImageFolder(
                 root=directory,
                 transform=self.transform)
-        trainloader = torch.utils.data.DataLoader(
+        dataloader = torch.utils.data.DataLoader(
                 trainset,
                 batch_size=self.batch_size,
                 shuffle=True,
                 num_workers=2)
 
-        testset = torchvision.datasets.ImageFolder(
-                root=directory,
-                transform=self.transform)
-        testloader = torch.utils.data.DataLoader(
-                testset,
-                batch_size=self.batch_size,
-                shuffle=False,
-                num_workers=2)
-
-        return trainset, trainloader, testset, testloader
+        return dataset, dataloader
 
     def numpy(
             self,
             directory: str):
 
-        trainset, trainloader, testset, testloader = self.tensor(directory)
+        dataset, dataloader = self.tensor(directory)
+        train_dataset_array = next(iter(trainloader))[0].numpy()
 
-        return trainloader.data.numpy(), testloader.data.numpy()
+        return train_dataset_array

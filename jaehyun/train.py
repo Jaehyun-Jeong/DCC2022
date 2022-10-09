@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 net = Model()
 Loader = Load()
-train_set, train_loader, _, test_loader = Loader.tensor("./dataset")
+data_set, data_loader = Loader.tensor("./dataset")
 
 numpy_data = Loader.numpy("./dataset")
 
