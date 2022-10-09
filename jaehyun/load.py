@@ -39,4 +39,5 @@ class Load():
         dataset, dataloader = self.tensor(directory)
         train_dataset_array = next(iter(dataloader))[0].numpy()
 
-        return train_dataset_array
+        # return train_dataset_array
+        return dataset[:]
