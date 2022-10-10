@@ -1,0 +1,27 @@
+from google.colab import drive
+drive.mount('/content/drive')
+
+%cd /content/drive/MyDrive/Colab Notebooks/
+!unzip dataset.zip
+!rm -rf dataset.zip
+
+from os import listdir
+path = '/content/drive/MyDrive/Colab Notebooks/DCC/'
+dir_list = listdir(path)
+
+classLenLst = []
+for class_name in dir_list:
+  classLenLst.append(len(listdir(path+class_name)))
+  
+import pandas as pd
+
+df_dict = dict()
+df_dict["이름"] = dir_list
+df_dict["수"] = classLenLst
+
+df= pd.DataFrame(df_dict)
+df
+
+plt.figure(figsize=(100,100))
+df.plot(kind = "bar", x='이름', y='수')
+plt.xlabel("name"); plt.ylabel("count"); plt.title("folder name")
