@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 
 
 class Load():
-    
+
     def __init__(
             self,
             batch_size: int = 4):
@@ -15,7 +15,7 @@ class Load():
             [transforms.ToTensor(),
              transforms.Resize((32, 32)),
              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-        self.batch_size =  batch_size
+        self.batch_size = batch_size
 
     def tensor(
             self,
@@ -37,7 +37,13 @@ class Load():
             directory: str):
 
         dataset, dataloader = self.tensor(directory)
-        train_dataset_array = next(iter(dataloader))[0].numpy()
+        # train_dataset_array = next(iter(dataloader))[0].numpy()
 
         # return train_dataset_array
         return dataset[:]
+
+
+if __name__ == "__main__":
+
+    Loader = Load()
+    dataset, dataloader = Loader.tensor('./dataset')
