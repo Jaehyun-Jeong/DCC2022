@@ -47,3 +47,4 @@ if __name__ == "__main__":
 
     Loader = Load()
     dataset, dataloader = Loader.tensor('./dataset')
+    dataset, dataloader = Loader.numpy('./dataset')
