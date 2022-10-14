@@ -84,8 +84,9 @@ class Load():
 if __name__ == "__main__":
 
     Loader = Load()
-    dataset = Loader.tensor('./dataset')
+    dataset, targetset = Loader.tensor('./dataset')
 
-    print(dataset)
+    print(dataset.shape)
+    print(len(targetset))
 
     pass
