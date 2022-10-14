@@ -8,12 +8,18 @@ class Load():
 
     def __init__(
             self,
-            batch_size: int = 4):
+            batch_size: int = 4,
+            flatten: bool = False):
 
-        self.transform = transforms.Compose(
-            [transforms.ToTensor(),
-             transforms.Resize((32, 32)),
-             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        transformer = [
+             transforms.ToTensor(),
+             transforms.Resize((128, 128)),
+             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+
+        if flatten:
+            transformer.append(transforms.Lambda(torch.flatten))
+
+        self.transform = transforms.Compose(transformer)
         self.batch_size = batch_size
 
     def __call__(
