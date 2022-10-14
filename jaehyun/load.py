@@ -1,8 +1,7 @@
-from PIL import Image
-
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import numpy as np
 
 
 class Load():
@@ -17,7 +16,7 @@ class Load():
              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
         self.batch_size = batch_size
 
-    def tensor(
+    def __call__(
             self,
             directory: str):
 
@@ -32,19 +31,61 @@ class Load():
 
         return dataset, dataloader
 
-    def numpy(
+    def tensor_label(
+            self,
+            directory: str,
+            label_name: str,
+            ) -> torch.Tensor:
+
+        dataset, dataloader = self(directory)
+
+        label_idx = dataset.class_to_idx[label_name]
+        label_idx_list = [
+                idx for idx, target_idx in enumerate(dataset.targets)
+                if target_idx == label_idx]
+
+        label_dataset = dataset[label_idx_list[0]][0].unsqueeze(0)
+        for idx in label_idx_list[1:]:
+            label_dataset = torch.cat(
+                    (label_dataset, dataset[idx][0].unsqueeze(0)),
+                    dim=0)
+
+        return label_dataset
+
+    def tensor(
             self,
             directory: str):
 
-        dataset, dataloader = self.tensor(directory)
-        # train_dataset_array = next(iter(dataloader))[0].numpy()
+        dataset, dataloader = self(directory)
 
-        # return train_dataset_array
-        return dataset[:]
+        total_targets = dataset.targets
+
+        total_dataset = dataset[0][0].unsqueeze(0)
+        for data_idx in range(1, len(dataset)):
+            total_dataset = torch.cat(
+                    (total_dataset, dataset[data_idx][0].unsqueeze(0)),
+                    dim=0)
+
+        return total_dataset, total_targets
+
+    def numpy_label(
+            self,
+            directory: str,
+            label_name: str,
+            ) -> np.ndarray:
+
+        label_dataset = self.tensor_label(
+                directory=directory,
+                label_name=label_name)
+
+        return label_dataset.numpy()
 
 
 if __name__ == "__main__":
 
     Loader = Load()
-    dataset, dataloader = Loader.tensor('./dataset')
-    dataset, dataloader = Loader.numpy('./dataset')
+    dataset = Loader.tensor('./dataset')
+
+    print(dataset)
+
+    pass
