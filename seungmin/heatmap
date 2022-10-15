@@ -6,13 +6,9 @@ import seaborn as sns
 
 plt.rcParams['figure.figsize'] = [10, 8]
 
-# 벡터 인풋형식을 바꿔야 할거 같은데 어떻게 바꾸지
-x = pd.DataFrame([80, 200, 274])
-y = pd.DataFrame([100,180,274])
-count = pd.DataFrame([12,15,16])
-data = pd.concat([x,y,count], axis = 1)
-
-table = pd.DataFrame(data)
+table = pd.DataFrame({'x' : [180, 200, 274, 296, 356, 458],
+                      'y' : [100,180,274,256,269,299],
+                      'count' : [12,15,16,17,35,56]})
 
 # 내 코드에 맞출려면 전체 파일가지고 일단 count구하고,
 # x y는 중복되는거 제외해야지 , 그리고 for문 쓰고 xy일치하는 값을 count의 원소로 투입 
