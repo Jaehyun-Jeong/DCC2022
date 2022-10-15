@@ -13,3 +13,24 @@ y1 = []
 for i in range(len(x)):
   x1.append(x[i][0])
   y1.append(x[i][1])
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams['figure.figsize'] = [50, 30]
+
+table = pd.DataFrame({'x1':x1, 'y1':y1, 'count':count})
+
+print(table)
+
+pivottable = table.pivot('x1', 'y1', 'count')
+
+plt.pcolor(pivottable)
+plt.xticks(np.arange(0.5, len(pivottable.columns), 1), pivottable.columns)
+plt.yticks(np.arange(0.5, len(pivottable.index), 1), pivottable.index)
+plt.title('Heatmap by image size', fontsize=20)
+plt.xlabel('WIDTH', fontsize=14, horiz = T)
+plt.ylabel('LENGTH', fontsize=14)
+plt.colorbar()
