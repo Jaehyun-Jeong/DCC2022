@@ -16,4 +16,3 @@ for class_name in dir2_list:
     image_list.append(im)
 
 image_size_list = [image.size for image in image_list]
-print(image_size_list)
