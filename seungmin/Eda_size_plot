@@ -1,0 +1,15 @@
+image_size_dict = {}
+for image_size in list(set(image_size_list)):
+
+  image_list = [i for i, size in enumerate(image_size_list) if size[0] == image_size[0] and size[1] == image_size[1]]
+  image_len = len(image_list)
+  image_size_dict[(image_size)] = image_len
+  
+x = list(image_size_dict.keys())
+count = list(image_size_dict.values())
+x1 = []
+y1 = []
+
+for i in range(len(x)):
+  x1.append(x[i][0])
+  y1.append(x[i][1])
