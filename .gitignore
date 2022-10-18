@@ -4,3 +4,4 @@
 **__pycache__/
 .vimspector.json
 **dataset/
+**clean_dataset/

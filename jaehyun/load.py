@@ -1,3 +1,5 @@
+from typing import List
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -86,13 +88,30 @@ class Load():
 
         return label_dataset.numpy()
 
+    def filename(
+            self,
+            directory: str,
+            label_name: str,
+            ) -> List[str]:
+
+        dataset, dataloader = self(directory)
+
+        label_idx = dataset.class_to_idx[label_name]
+        label_idx_list = [
+                idx for idx, target_idx in enumerate(dataset.targets)
+                if target_idx == label_idx]
+
+        filename_list = []
+        for idx in label_idx_list:
+            filename_list.append(dataset.imgs[idx][0])
+
+        return filename_list
+
 
 if __name__ == "__main__":
 
     Loader = Load()
-    dataset, targetset = Loader.tensor('./dataset')
 
-    print(dataset.shape)
-    print(len(targetset))
+    filename_list = Loader.filename("dataset", "L2_3")
 
-    pass
+    print(filename_list)
