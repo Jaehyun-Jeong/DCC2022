@@ -1,7 +1,8 @@
+import numpy as np
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
-<<<<<<< HEAD
 
 
 def Load(
@@ -33,8 +34,6 @@ def Load(
             num_workers=2)
 
     return trainloader, testloader
-=======
-import numpy as np
 
 
 class Load():
@@ -129,4 +128,3 @@ if __name__ == "__main__":
     print(len(targetset))
 
     pass
->>>>>>> jaehyun

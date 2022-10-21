@@ -4,10 +4,9 @@ from load import Load
 import torch.optim as optim
 from torch import nn
 
-<<<<<<< HEAD
 net = Model()
 train_loader, test_loader = Load("../dataset")
-=======
+
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -17,7 +16,6 @@ Loader = Load()
 data_set, data_loader = Loader.tensor("./dataset")
 
 numpy_data = Loader.numpy("./dataset")
->>>>>>> jaehyun
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
