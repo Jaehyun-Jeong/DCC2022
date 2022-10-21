@@ -1,0 +1,18 @@
+from PIL import Image
+from os import listdir
+
+path_2 = '/content/drive/MyDrive/Colab Notebooks/DCC/'
+dir2_list = listdir(path_2)
+
+image_list = []
+img_path = []
+
+for class_name in dir2_list:
+  path = '/content/drive/MyDrive/Colab Notebooks/DCC/' + class_name + '/'
+  dir_list = listdir(path)
+
+  for filename in dir_list:
+    im=Image.open(path+filename)
+    image_list.append(im)
+
+image_size_list = [image.size for image in image_list]

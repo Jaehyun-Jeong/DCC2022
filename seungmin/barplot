@@ -1,0 +1,5 @@
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(100,100))
+df.plot(kind = "bar", x='이름', y='수')
+plt.xlabel("name"); plt.ylabel("count"); plt.title("folder name")

@@ -1,0 +1,26 @@
+# scatter plot을 그리던가 heatmap을 그리기
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams['figure.figsize'] = [10, 8]
+
+table = pd.DataFrame({'x' : [180, 200, 274, 296, 356, 458],
+                      'y' : [100,180,274,256,269,299],
+                      'count' : [12,15,16,17,35,56]})
+
+# 내 코드에 맞출려면 전체 파일가지고 일단 count구하고,
+# x y는 중복되는거 제외해야지 , 그리고 for문 쓰고 xy일치하는 값을 count의 원소로 투입 
+
+print(table)
+
+pivottable = table.pivot('x', 'y', 'count')
+
+plt.pcolor(pivottable)
+plt.xticks(np.arange(0.5, len(df.columns), 1), pivottable.columns)
+plt.yticks(np.arange(0.5, len(df.index), 1), pivottable.index)
+plt.title('Heatmap by image size', fontsize=20)
+plt.xlabel('WIDTH', fontsize=14)
+plt.ylabel('LENGTH', fontsize=14)
+plt.colorbar()
