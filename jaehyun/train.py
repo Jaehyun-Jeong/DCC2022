@@ -4,9 +4,6 @@ from load import Load
 import torch.optim as optim
 from torch import nn
 
-net = Model()
-train_loader, test_loader = Load("../dataset")
-
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
