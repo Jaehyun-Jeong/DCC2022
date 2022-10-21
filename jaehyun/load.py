@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import numpy as np
 
 =======
@@ -11,6 +12,20 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as transforms
+=======
+<<<<<<< HEAD
+import torch
+import torchvision
+import torchvision.transforms as transforms
+import numpy as np
+=======
+import numpy as np
+
+import torch
+import torchvision
+import torchvision.transforms as transforms
+>>>>>>> e2f22c7 (fixed merge conflicts)
+>>>>>>> 9f37040 (fixed merge conflicts)
 
 
 class Load():
@@ -105,6 +120,7 @@ if __name__ == "__main__":
     print(len(targetset))
 
     pass
+<<<<<<< HEAD
 =======
 =======
 import torch
@@ -148,3 +164,5 @@ def Load(
 
     return trainloader, testloader
 >>>>>>> d3d50fb (test)
+=======
+>>>>>>> e2f22c7 (fixed merge conflicts)

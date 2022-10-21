@@ -1,6 +1,9 @@
 # 정재현
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e2f22c7 (fixed merge conflicts)
 ## clustering
 
 ### K-means Clustering
@@ -86,6 +89,7 @@ $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
 ### Optimizer
 
 ![](static/optimizer.png)<br/>
+<<<<<<< HEAD
 =======
 ## f1-score
 
@@ -125,3 +129,5 @@ $Recall = \dfrac{TP}{TP + FN}$<br/>
 
 $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
 >>>>>>> 505c54f (while writing README.md)
+=======
+>>>>>>> e2f22c7 (fixed merge conflicts)

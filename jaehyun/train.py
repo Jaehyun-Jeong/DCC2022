@@ -5,6 +5,9 @@ import torch.optim as optim
 from torch import nn
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e2f22c7 (fixed merge conflicts)
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -14,10 +17,13 @@ Loader = Load()
 data_set, data_loader = Loader.tensor("./dataset")
 
 numpy_data = Loader.numpy("./dataset")
+<<<<<<< HEAD
 =======
 net = Model()
 train_loader, test_loader = Load("../dataset")
 >>>>>>> d3d50fb (test)
+=======
+>>>>>>> e2f22c7 (fixed merge conflicts)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
