@@ -1,9 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import numpy as np
 
 =======
 <<<<<<< HEAD
 >>>>>>> 81582bb (made file and methods')
+=======
+<<<<<<< HEAD
+>>>>>>> 04afce7 (test)
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -102,10 +106,45 @@ if __name__ == "__main__":
 
     pass
 =======
+=======
+import torch
+import torchvision
+import torchvision.transforms as transforms
+>>>>>>> d3d50fb (test)
 
 
-class Loader():
+def Load(
+        directory: str):
 
+<<<<<<< HEAD
     def __init__(self):
         pass
 >>>>>>> 36ae001 (made file and methods')
+=======
+    transform = transforms.Compose(
+        [transforms.ToTensor(),
+         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+    batch_size = 4
+
+    trainset = torchvision.datasets.ImageFolder(
+            root=directory,
+            transform=transform)
+    trainloader = torch.utils.data.DataLoader(
+            trainset,
+            batch_size=batch_size,
+            shuffle=True,
+            num_workers=2)
+
+    testset = torchvision.datasets.ImageFolder(
+            root=directory,
+            download=True,
+            transform=transform)
+    testloader = torch.utils.data.DataLoader(
+            testset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=2)
+
+    return trainloader, testloader
+>>>>>>> d3d50fb (test)

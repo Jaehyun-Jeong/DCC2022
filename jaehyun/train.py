@@ -4,6 +4,7 @@ from load import Load
 import torch.optim as optim
 from torch import nn
 
+<<<<<<< HEAD
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -13,6 +14,10 @@ Loader = Load()
 data_set, data_loader = Loader.tensor("./dataset")
 
 numpy_data = Loader.numpy("./dataset")
+=======
+net = Model()
+train_loader, test_loader = Load("../dataset")
+>>>>>>> d3d50fb (test)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
