@@ -1,7 +1,5 @@
 # 정재현
 
-<<<<<<< HEAD
-=======
 ## clustering
 
 ### K-means Clustering
@@ -30,7 +28,6 @@ ARI와 같은 이유로 나쁘다고 판단.
 
 ### silhouette coefficient
 
->>>>>>> jaehyun
 ## f1-score
 
 우선 f1-score를 이해하기 위해서는 TP, TN, FP, FN의 개념을 이해할 필요가 있다.<br/><br/>
@@ -59,19 +56,13 @@ $Recall = \dfrac{TP}{TP + FN}$<br/>
 
 ### Precision과 Recall의 의미
 
-<<<<<<< HEAD
-그렇다면 Precision과 Recall은 왜 중요한가.
-=======
 그렇다면 Precision과 Recall은 왜 중요한가. <br/>
 **이는 암 예측으로 설명된다.**<br/>
 > 왜냐하면 환자가 암이 있는데 없다고 판단하는 경우가 가장 위험하기 때문이다. 따라서 Recall이 높으면 실제 암을 가지고 있는 사람들 중에서, 암을 가지고 있다고 판단할 확률이 높은 것이므로, 이를 metric으로 사용해야한다.
->>>>>>> jaehyun
 
 ### f1-score
 
 $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
-<<<<<<< HEAD
-=======
 
 **결론부터 말하자면, f1-score는 Precision과 Recall의 조화평균이다.**
 그렇다면 과제에서 Precision과 Recall의 조화평균을 사용하게 한 이유는 무엇인가.
@@ -94,4 +85,3 @@ $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
 ### Optimizer
 
 ![](static/optimizer.png)<br/>
->>>>>>> jaehyun
