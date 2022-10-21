@@ -1,5 +1,6 @@
 # 정재현
 
+<<<<<<< HEAD
 ## clustering
 
 ### K-means Clustering
@@ -85,3 +86,8 @@ $F1 = \dfrac{2 \times Precision \times Recall }{Precision + Recall}$<br/><br/>
 ### Optimizer
 
 ![](static/optimizer.png)<br/>
+=======
+## f1-score
+
+$Precision$
+>>>>>>> 36ae001 (made file and methods')

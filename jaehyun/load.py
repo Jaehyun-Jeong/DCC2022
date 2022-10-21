@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import numpy as np
 
+=======
+<<<<<<< HEAD
+>>>>>>> 81582bb (made file and methods')
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -97,3 +101,11 @@ if __name__ == "__main__":
     print(len(targetset))
 
     pass
+=======
+
+
+class Loader():
+
+    def __init__(self):
+        pass
+>>>>>>> 36ae001 (made file and methods')
