@@ -21,3 +21,11 @@ class Model(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
+
+
+if __name__ == "__main__":
+    import torchvision
+
+    model = torchvision.models.vgg16()
+
+    print(model)
