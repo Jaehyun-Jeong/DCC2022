@@ -26,6 +26,20 @@ class Model(nn.Module):
 if __name__ == "__main__":
     import torchvision
 
+    # VGG16
     model = torchvision.models.vgg16()
-
+    print("VGG16")
     print(model)
+    print(400*"=")
+
+    # googlenet
+    model = torch.hub.load('pytorch/vision:v0.10.0', 'googlenet')
+    print("GoogleNet")
+    print(model)
+    print(400*"=")
+
+    # resnet-18
+    model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18')
+    print("Resnet18")
+    print(model)
+    print(400*"=")
