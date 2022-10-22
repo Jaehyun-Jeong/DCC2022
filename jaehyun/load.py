@@ -19,6 +19,7 @@ class Load():
             transformer.append(transforms.Lambda(torch.flatten))
 
         self.transform = transforms.Compose(transformer)
+
         self.batch_size = batch_size
 
     def __call__(
