@@ -10,8 +10,10 @@ class Load():
 
     def __init__(
             self,
+            transformer,
             batch_size: int = 4,
-            flatten: bool = False):
+            flatten: bool = False,
+            ):
 
         transformer = [
              transforms.ToTensor(),
