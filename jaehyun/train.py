@@ -1,6 +1,9 @@
+from typing import Dict
+
 from model import Model
 from load import Load
 
+from sklearn.metrics import precision_recall_fscore_support
 import torch
 import torch.optim as optim
 from torch import nn
@@ -47,13 +50,12 @@ class Trainer():
                 loss.backward()
                 self.optimizer.step()
 
-            accuracy = self.test(test_loader)
-            print(f'{epoch + 1}: Accuracy {accuracy} %')
+            self.test(test_loader)
 
     @torch.no_grad()
     def test(
             self,
-            test_loader):
+            test_loader) -> Dict[str, float]:
 
         correct = 0
         total = 0
@@ -67,10 +69,31 @@ class Trainer():
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
-        return 100 * correct // total
+        accuracy = 100 * correct // total
+        precision, recall, fscore = precision_recall_fscore_support(
+                labels.data,
+                predicted,
+                average='macro')
 
-    def f1_score(self):
-        pass
+        results = {
+                'accuracy': accuracy,
+                'precision': precision,
+                'recall': recall,
+                'f1-score': fscore}
+
+        return results
+
+    def print_results(
+            self,
+            epoch: int,
+            results: Dict[str, float]):
+
+        results_str = f"| epoch: {epoch + 1} "
+        for result_name, result in results.items():
+            results_str += f"| {result_name}: {result} "
+        results_str += "|"
+
+        print(results_str)
 
 
 if __name__ == "__main__":
@@ -86,7 +109,7 @@ if __name__ == "__main__":
     train_dataloader = Load(
             train_transformer,
             batch_size=128)
-    _, trainloader = train_dataloader("./final_dataset/train")
+    _, trainloader = train_dataloader("./train_val_test_dataset/train")
 
     # Test loader
     test_transformer = [
@@ -96,7 +119,7 @@ if __name__ == "__main__":
     test_dataloader = Load(
             test_transformer,
             batch_size=128)
-    _, testloader = test_dataloader("./final_dataset/test")
+    _, testloader = test_dataloader("./train_val_test_dataset/valid")
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
