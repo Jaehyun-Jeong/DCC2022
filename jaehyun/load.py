@@ -10,10 +10,15 @@ class Load():
 
     def __init__(
             self,
-            transformer,
+            transformer = None,
             batch_size: int = 4,
             flatten: bool = False,
             ):
+
+        if not transformer:
+            transformer = [
+                    transforms.ToTensor()
+                    ]
 
         if flatten:
             transformer.append(transforms.Lambda(torch.flatten))
