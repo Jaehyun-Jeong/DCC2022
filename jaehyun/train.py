@@ -101,25 +101,22 @@ if __name__ == "__main__":
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = Model()
 
-    # Train loader
-    train_transformer = [
+    transformer = [
         transforms.ToTensor(),
         transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
         transforms.Resize((32, 32))]
+
+    # Train loader
     train_dataloader = Load(
-            train_transformer,
+            transformer,
             batch_size=128)
     _, trainloader = train_dataloader("./train_val_test_dataset/train")
 
-    # Test loader
-    test_transformer = [
-        transforms.ToTensor(),
-        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
-        transforms.Resize((32, 32))]
-    test_dataloader = Load(
-            test_transformer,
+    # Validation loader
+    valid_dataloader = Load(
+            transformer,
             batch_size=128)
-    _, testloader = test_dataloader("./train_val_test_dataset/valid")
+    _, valloader = valid_dataloader("./train_val_test_dataset/valid")
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
@@ -133,6 +130,6 @@ if __name__ == "__main__":
 
     # Train
     trainer.train(
-            3,
+            50,
             trainloader,
-            testloader)
+            valloader)
