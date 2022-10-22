@@ -19,7 +19,6 @@ class Load():
             transformer.append(transforms.Lambda(torch.flatten))
 
         self.transform = transforms.Compose(transformer)
-
         self.batch_size = batch_size
 
     def __call__(
@@ -108,8 +107,77 @@ class Load():
 
 if __name__ == "__main__":
 
-    Loader = Load()
+    import matplotlib.pyplot as plt
 
-    filename_list = Loader.filename("dataset", "L2_3")
+    # Augmentation
+    agmt = [
+            transforms.RandomHorizontalFlip(p=1),
+            transforms.RandomVerticalFlip(p=1),
+            transforms.RandomRotation(degrees=(0, 180)),
+            transforms.RandomAffine(
+                degrees=(30, 70),
+                translate=(0.1, 0.3),
+                scale=(0.5, 0.75)),
+            ]
+    agmt_names = [
+            'Horizontal Flip',
+            'Vertical Flip',
+            'Rotation',
+            'Affine',
+            ]
 
-    print(filename_list)
+    transformer = [
+            transforms.Resize((100, 100)),
+            transforms.ToTensor(),
+            ]
+
+    fig, axes = plt.subplots(len(agmt) + 1, 4)
+
+    # Load Image
+    Loader = Load(transformer)
+    dataset, _ = Loader("final_dataset\\train\\")
+    origin_images = [dataset[i][0] for i in range(4)]
+
+    images = origin_images
+    image = images[0].numpy().transpose(1, 2, 0)
+    axes[0][0].imshow(image)
+    axes[0][0].set_xticks([])
+    axes[0][0].set_yticks([])
+    axes[0][0].set_ylabel('original', fontsize=8)
+    image = images[1].numpy().transpose(1, 2, 0)
+    axes[0][1].imshow(image)
+    axes[0][1].set_xticks([])
+    axes[0][1].set_yticks([])
+    image = images[2].numpy().transpose(1, 2, 0)
+    axes[0][2].imshow(image)
+    axes[0][2].set_xticks([])
+    axes[0][2].set_yticks([])
+    image = images[3].numpy().transpose(1, 2, 0)
+    axes[0][3].imshow(image)
+    axes[0][3].set_xticks([])
+    axes[0][3].set_yticks([])
+
+    for idx, transform in enumerate(agmt):
+        images = [transform(image) for image in origin_images]
+
+        image = images[0].numpy().transpose(1, 2, 0)
+        axes[idx+1][0].imshow(image)
+        axes[idx+1][0].set_xticks([])
+        axes[idx+1][0].set_yticks([])
+        axes[idx+1][0].set_ylabel(
+                agmt_names[idx],
+                fontsize=8)
+        image = images[1].numpy().transpose(1, 2, 0)
+        axes[idx+1][1].imshow(image)
+        axes[idx+1][1].set_xticks([])
+        axes[idx+1][1].set_yticks([])
+        image = images[2].numpy().transpose(1, 2, 0)
+        axes[idx+1][2].imshow(image)
+        axes[idx+1][2].set_xticks([])
+        axes[idx+1][2].set_yticks([])
+        image = images[3].numpy().transpose(1, 2, 0)
+        axes[idx+1][3].imshow(image)
+        axes[idx+1][3].set_xticks([])
+        axes[idx+1][3].set_yticks([])
+
+    plt.show()
