@@ -15,11 +15,6 @@ class Load():
             flatten: bool = False,
             ):
 
-        transformer = [
-             transforms.ToTensor(),
-             transforms.Resize((128, 128)),
-             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
-
         if flatten:
             transformer.append(transforms.Lambda(torch.flatten))
 
