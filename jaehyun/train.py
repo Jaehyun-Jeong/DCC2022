@@ -1,8 +1,5 @@
 from typing import Dict
 
-from model import Model
-from load import Load
-
 from sklearn.metrics import precision_recall_fscore_support
 import torch
 import torch.optim as optim
@@ -21,6 +18,7 @@ class Trainer():
             model: nn.Module,
             optimizer,
             criterion,
+            scheduler,
             device: torch.device = torch.device('cpu'),
             ):
 
@@ -28,6 +26,7 @@ class Trainer():
         self.model = model.to(self.device)
         self.optimizer = optimizer
         self.criterion = criterion
+        self.scheduler = scheduler
 
     def train(
             self,
@@ -36,6 +35,9 @@ class Trainer():
             test_loader):
 
         for epoch in range(epochs):  # loop over the dataset multiple times
+
+            self.model.train()
+
             for i, data in enumerate(train_loader):
                 # get the inputs; data is a list of [inputs, labels]
                 inputs = data[0].to(self.device)
@@ -49,6 +51,9 @@ class Trainer():
                 loss = self.criterion(outputs, labels)
                 loss.backward()
                 self.optimizer.step()
+                self.scheduler.step()
+
+            self.model.eval()
 
             results = self.test(test_loader)
 
@@ -63,8 +68,8 @@ class Trainer():
         total = 0
 
         for data in test_loader:
-            images = data[0].to(device)
-            labels = data[1].to(device)
+            images = data[0].to(self.device)
+            labels = data[1].to(self.device)
 
             outputs = self.model(images)
             _, predicted = torch.max(outputs.data, 1)
@@ -103,6 +108,10 @@ class Trainer():
 
 
 if __name__ == "__main__":
+
+    from model import Model
+    from load import Load
+
     # Use Gpu
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = Model()

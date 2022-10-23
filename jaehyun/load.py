@@ -37,7 +37,7 @@ class Load():
                 dataset,
                 batch_size=self.batch_size,
                 shuffle=True,
-                num_workers=2)
+                num_workers=10)
 
         return dataset, dataloader
 
