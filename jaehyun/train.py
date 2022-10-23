@@ -18,7 +18,7 @@ class Trainer():
             model: nn.Module,
             optimizer,
             criterion,
-            scheduler,
+            scheduler=None,
             device: torch.device = torch.device('cpu'),
             ):
 
@@ -37,6 +37,7 @@ class Trainer():
         for epoch in range(epochs):  # loop over the dataset multiple times
 
             self.model.train()
+            train_loss = 0
 
             for i, data in enumerate(train_loader):
                 # get the inputs; data is a list of [inputs, labels]
@@ -51,11 +52,19 @@ class Trainer():
                 loss = self.criterion(outputs, labels)
                 loss.backward()
                 self.optimizer.step()
-                self.scheduler.step()
+
+                # accmulate train loss
+                train_loss += loss.item()
+
+                if self.scheduler:
+                    self.scheduler.step()
+
+            train_loss = train_loss / len(train_loader)
 
             self.model.eval()
 
             results = self.test(test_loader)
+            results['train loss'] = train_loss
 
             self.print_results(epoch, results)
 
@@ -67,14 +76,22 @@ class Trainer():
         correct = 0
         total = 0
 
+        test_loss = 0
+
         for data in test_loader:
             images = data[0].to(self.device)
             labels = data[1].to(self.device)
 
             outputs = self.model(images)
+            loss = self.criterion(outputs, labels)
             _, predicted = torch.max(outputs.data, 1)
+
+            test_loss += loss.item()
+
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
+
+        test_loss = test_loss / len(test_loader)
 
         accuracy = 100 * correct // total
 
@@ -90,7 +107,8 @@ class Trainer():
                 'accuracy': accuracy,
                 'precision': precision,
                 'recall': recall,
-                'f1-score': fscore}
+                'f1-score': fscore,
+                'test loss': test_loss}
 
         return results
 
@@ -99,9 +117,15 @@ class Trainer():
             epoch: int,
             results: Dict[str, float]):
 
-        results_str = f"| epoch: {epoch + 1} "
+        results_str = \
+            f"| epoch:" \
+            f" {str(epoch + 1)[0:10]:>10} " \
+
         for result_name, result in results.items():
-            results_str += f"| {result_name}: {result} "
+            results_str += \
+                f"| {result_name}:" \
+                f" {str(result)[0:10]:>10} "
+
         results_str += "|"
 
         print(results_str)

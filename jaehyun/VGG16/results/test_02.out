@@ -1,0 +1,4 @@
+| epoch:          1 | accuracy:         26 | precision: 0.01330532 | recall: 0.05882352 | f1-score: 0.02170188 | test loss: 2.27305552 | train loss: 984472516. |
+| epoch:          2 | accuracy:         26 | precision: 0.01540616 | recall: 0.05882352 | f1-score: 0.02441731 | test loss: 2.28016406 | train loss: 2.35881446 |
+| epoch:          3 | accuracy:         26 | precision: 0.01587301 | recall: 0.06666666 | f1-score: 0.02564102 | test loss: 2.27237872 | train loss: 2.35199483 |
+| epoch:          4 | accuracy:         26 | precision: 0.02008928 | recall:     0.0625 | f1-score: 0.03040540 | test loss: 2.27319790 | train loss: 2.35662061 |
