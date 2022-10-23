@@ -50,7 +50,9 @@ class Trainer():
                 loss.backward()
                 self.optimizer.step()
 
-            self.test(test_loader)
+            results = self.test(test_loader)
+
+            self.print_results(epoch, results)
 
     @torch.no_grad()
     def test(
@@ -61,8 +63,8 @@ class Trainer():
         total = 0
 
         for data in test_loader:
-            images = data[0].to(self.device)
-            labels = data[1].to(self.device)
+            images = data[0].to(device)
+            labels = data[1].to(device)
 
             outputs = self.model(images)
             _, predicted = torch.max(outputs.data, 1)
@@ -70,7 +72,11 @@ class Trainer():
             correct += (predicted == labels).sum().item()
 
         accuracy = 100 * correct // total
-        precision, recall, fscore = precision_recall_fscore_support(
+
+        # To change it to numpy.ndarray
+        labels = labels.cpu()
+        predicted = predicted.cpu()
+        precision, recall, fscore, _ = precision_recall_fscore_support(
                 labels.data,
                 predicted,
                 average='macro')
