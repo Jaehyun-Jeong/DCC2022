@@ -33,7 +33,7 @@ valid_dataloader = Load(
 _, valloader = valid_dataloader("../train_val_test_dataset/valid")
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=1e-6)
 
 # Init Trainer
 trainer = Trainer(
