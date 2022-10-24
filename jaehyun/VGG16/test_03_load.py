@@ -40,8 +40,9 @@ trainer = Trainer(
         model=model,
         optimizer=optimizer,
         criterion=criterion,
-        device=device,
-        )
+        device=device)
+
+trainer.load("./saved_models/test_03.obj")
 
 # Train
 trainer.train(

@@ -1,5 +1,8 @@
-from typing import Dict
+from typing import Dict, Union
+import math
+import copy
 
+from datetime import datetime, timedelta
 from sklearn.metrics import precision_recall_fscore_support
 import torch
 import torch.optim as optim
@@ -28,15 +31,29 @@ class Trainer():
         self.criterion = criterion
         self.scheduler = scheduler
 
-        self.step_done = 0
+        self.trained_epoch = 0
+        self._results = []
+        self._time_spent = timedelta(0)
+        self._time_prev_epoch = datetime.now()
+        self._best_val_loss = math.inf
+
+    @property
+    def results(self):
+        return self._results
 
     def train(
             self,
             epochs: int,
             train_loader,
-            test_loader):
+            test_loader,
+            autosave_params: Dict[str, Union[bool, str]] = {
+                'use_autosave': True,
+                'save_dir': './saved_models/test.obj'}
+            ):
 
         for epoch in range(epochs):  # loop over the dataset multiple times
+
+            self.trained_epoch += 1
 
             self.model.train()
             train_loss = 0
@@ -67,8 +84,20 @@ class Trainer():
 
             results = self.test(test_loader)
             results['train loss'] = train_loss
+            self._results.append(results)
 
-            self.print_results(epoch, results)
+            if autosave_params['use_autosave'] \
+                    and results['test loss'] < self._best_val_loss:
+
+                self._best_val_loss = results['test loss']
+                self.save(autosave_params['save_dir'])
+
+            self.__print_results(
+                    self.trained_epoch,
+                    results)
+
+            # measure previous epoch start time
+            self._time_prev_epoch = datetime.now()
 
     @torch.no_grad()
     def test(
@@ -117,50 +146,59 @@ class Trainer():
         accuracy = 100 * correct // total
 
         results = {
-                'accuracy': accuracy,
+                'f1-score': mean_fscore,
+                'accuracy': str(accuracy)+"%",
                 'precision': mean_precision,
                 'recall': mean_recall,
-                'f1-score': mean_fscore,
                 'test loss': test_loss}
 
         return results
 
-    def print_results(
+    def __print_results(
             self,
             epoch: int,
             results: Dict[str, float]):
 
-        results_str = \
-            f"| epoch:" \
-            f" {str(epoch + 1)[0:10]:>10} " \
+        frame = "+----------------------------------------+"
+        results_str = [
+            f"| epoch:                      {str(epoch)[0:10]:>10} "]
+
+        results_str[0] += (len(frame)-len(results_str[0])-1)*' ' + '|'
+
+        time_spent = datetime.now() - self._time_prev_epoch
+        results['time spent (epoch)'] = \
+            time_spent
+
+        self._time_spent += time_spent
+        results['time spent (total)'] = \
+            self._time_spent
 
         for result_name, result in results.items():
-            results_str += \
-                f"| {result_name}:" \
-                f" {str(result)[0:10]:>10} "
+            results_str.append(f"| {result_name}: ")
+            results_str[-1] += (30-len(results_str[-1]))*' '
+            results_str[-1] += f"{str(result)[0:10]:>10} "
+            results_str[-1] += (len(frame)-len(results_str[-1])-1)*' ' + '|'
 
-        results_str += "|"
-
-        print(results_str)
+        print(frame)
+        for result_str in results_str:
+            print(result_str)
+        print(frame)
 
     # save class
-    def save(self, saveDir: str = str(datetime)+".obj"):
+    def save(self, saveDir: str):  # use .obj for saveDir
 
-        save_dict = self.__dict__
+        save_dict = copy.deepcopy(self.__dict__)
 
         # belows are impossible to dump
-        save_dict.pop('tensorboardWriter', None)
-        save_dict.pop('trainEnv', None)
-        save_dict.pop('testEnv', None)
-        save_dict.pop('device', None)
+        save_dict.pop('device')
 
         # save model state dict
         save_dict['modelStateDict'] \
-            = save_dict['model'].model.state_dict()
-        save_dict['model'].model = None
+            = save_dict['model'].state_dict()
+        save_dict.pop('model')
         save_dict['optimizerStateDict'] \
-            = save_dict['optimizer'].optimizer.state_dict()
-        save_dict['optimizer'].optimizer = None
+            = save_dict['optimizer'].state_dict()
+        save_dict.pop('optimizer')
 
         torch.save(save_dict, saveDir)
 
@@ -178,9 +216,6 @@ class Trainer():
             self.optimizer.load_state_dict(
                     loadedDict.pop('optimizerStateDict'))
 
-            loadedDict.pop('modelStateDict')
-            loadedDict.pop('optimizerStateDict')
-
         except ValueError:
             print(
                 "No matching torch.nn.Module,"
@@ -188,6 +223,9 @@ class Trainer():
 
         for key, value in loadedDict.items():
             self.__dict__[key] = value
+
+        # measure previous epoch start time
+        self._time_prev_epoch = datetime.now()
 
 
 if __name__ == "__main__":
