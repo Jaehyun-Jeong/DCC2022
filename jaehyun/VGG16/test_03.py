@@ -45,7 +45,7 @@ trainer = Trainer(
 
 # Train
 trainer.train(
-        3,
+        3000,
         trainloader,
         valloader,
         autosave_params={
