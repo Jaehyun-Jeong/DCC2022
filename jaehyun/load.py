@@ -12,6 +12,7 @@ class Load():
     def __init__(
             self,
             transformer = None,
+            num_workers: int = 10,
             batch_size: int = 4,
             flatten: bool = False,
             ):
@@ -28,6 +29,7 @@ class Load():
 
         self.transform = transforms.Compose(transformer)
         self.batch_size = batch_size
+        self.num_workers = num_workers
 
     def __call__(
             self,
@@ -40,7 +42,7 @@ class Load():
                 dataset,
                 batch_size=self.batch_size,
                 shuffle=True,
-                num_workers=10)
+                num_workers=self.num_workers)
 
         return dataset, dataloader
 

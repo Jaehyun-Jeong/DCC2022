@@ -90,6 +90,68 @@ class VGG16(nn.Module):
         return x
 
 
+class ResidualBlock(nn.Module):
+
+    def __init__(
+            self,
+            input_size: int,
+            output_size: int):
+
+        super().__init__()
+
+        if input_size == output_size:
+            self.identity_block1 = nn.Sequential()
+        else:
+            self.identity_block1 = self.identity_block(input_size, output_size)
+
+        self.identity_block2 = nn.Sequential()
+
+        self.relu = nn.ReLU(inplace=True)
+        self.basic_block1 = self.basic_block(input_size, output_size)
+        self.basic_block2 = self.basic_block(output_size, output_size)
+
+    def identity_block(
+            self,
+            input_size: int,
+            output_size: int):
+
+        return nn.Sequential(
+            nn.Conv2d(input_size, output_size, kernel_size=(1, 1), stride=(2, 2), bias=False),
+            nn.BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True))
+
+    def basic_block(
+            self,
+            input_size: int,
+            output_size: int):
+
+        stride_size = int(output_size / input_size)
+
+        block = nn.Sequential(
+            nn.Conv2d(input_size, output_size, kernel_size=(3, 3), stride=(stride_size, stride_size), padding=(1, 1), bias=False),
+            nn.BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(output_size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
+            nn.BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),)
+
+        return block
+
+    def forward(
+            self,
+            x: torch.Tensor):
+
+        identity1 = self.identity_block1(x)
+        x = self.basic_block1(x)
+        x += identity1
+        x = self.relu(x)
+
+        identity2 = self.identity_block2(x)
+        x = self.basic_block2(x)
+        x += identity2
+        x = self.relu(x)
+
+        return x
+
+
 class ResNet18(nn.Module):
 
     def __init__(
@@ -99,83 +161,51 @@ class ResNet18(nn.Module):
 
         super().__init__()
 
-        self.flatten = nn.Flatten(1, 3)
+        self._first_block = self.input_block()
+        self._residual_block1 = ResidualBlock(64, 64)
+        self._residual_block2 = ResidualBlock(64, 128)
+        self._residual_block3 = ResidualBlock(128, 256)
+        self._residual_block4 = ResidualBlock(256, 512)
+        self._last_block = self.output_block(512, outputs)
 
-    def input_block(
-            self,
-            x: torch.Tensor):
+    def input_block(self):
 
         block = nn.Sequential(
                     nn.Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False),
                     nn.BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
-                    ReLU(inplace=True),
+                    nn.ReLU(inplace=True),
                     nn.MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False),
                 )
 
-        return block(x)
+        return block
 
-    def basic_block(
-            self,
-            x: torch.Tensor,
-            input_size: int,
-            output_size: int):
-
-        if input_size != output_size:
-            down_conv1 = Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
-            down_bn1 = BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-
-        block = nn.Sequential(
-            Conv2d(size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            atchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
-            ReLU(inplace=True),
-            Conv2d(output_size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),)
-
-        x = F.relu(x)
-
-        if input_size == output_size:
-            out = block(x) + x
-        else:
-            downsampled_x = down_bn1(down_conv1(x))
-            out = block(x) + downsampled_x
-
-        out = F.relu(out)
-
-        return out
 
     def output_block(
             self,
-            x: torch.Tensor,
             input_feature_size: int,
             output_feature_size: int):
 
-            avgpool = nn.AdaptiveAvgPool2d(output_size=(7, 7)),
-            linear = nn.Linear(in_features=input_feature_size, out_features=output_feature_size, bias=True)
+        block = nn.Sequential(
+            nn.AdaptiveAvgPool2d(output_size=(7, 7)),
+            nn.Flatten(1, 3),
+            nn.Linear(in_features=input_feature_size, out_features=output_feature_size, bias=True),)
 
-            x = avgpool(x)
-            x = self.flatten(x)
-            x = linear(x)
-
-            return x
+        return block
 
     def forward(
             self,
             x: torch.Tensor):
 
-        x = self.input_block(x)
-        x = self.basic_block(x, 64, 64)
-        x = self.basic_block(x, 64, 64)
-        x = self.basic_block(x, 64, 128)
-        x = self.basic_block(x, 128, 128)
-        x = self.basic_block(x, 128, 256)
-        x = self.basic_block(x, 256, 256)
-        x = self.basic_block(x, 256, 512)
-        x = self.basic_block(x, 512, 512)
-        x = self.output_block(512, outputs)
+        x = self._first_block(x)
+        x = self._residual_block1(x)
+        x = self._residual_block2(x)
+        x = self._residual_block3(x)
+        x = self._residual_block4(x)
+        x = self._last_block(x)
 
         return x
 
 
 if __name__ == "__main__":
-    model = VGG16()
+    model = ResNet18((3, 224, 224), 20)
     print(model)
