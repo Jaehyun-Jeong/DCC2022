@@ -125,11 +125,11 @@ class ResNet18(nn.Module):
             down_bn1 = BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 
         block = nn.Sequential(
-            Conv2d(size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            atchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            ReLU(inplace=True)
-            Conv2d(output_size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True))
+            Conv2d(size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
+            atchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
+            ReLU(inplace=True),
+            Conv2d(output_size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
+            BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),)
 
         x = F.relu(x)
 

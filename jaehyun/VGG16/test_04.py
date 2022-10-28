@@ -33,13 +33,13 @@ valid_dataloader = Load(
 _, valloader = valid_dataloader("../augmented_dataset/valid")
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.03)
+optimizer = optim.Adam(model.parameters(), lr=0.0003)
 exp_lr_scheduler = lr_scheduler.StepLR(
         optimizer,
         step_size=30,
         gamma=0.1)
 
-exp_lr_scheduler.last_epoch = 30 * 4 # only 4 times update
+exp_lr_scheduler.last_epoch = 30 * 2 # only 4 times update
 
 # Init Trainer
 trainer = Trainer(
