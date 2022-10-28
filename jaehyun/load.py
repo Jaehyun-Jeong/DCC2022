@@ -4,6 +4,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 import numpy as np
+from PIL import ImageFile
 
 
 class Load():
@@ -14,6 +15,8 @@ class Load():
             batch_size: int = 4,
             flatten: bool = False,
             ):
+        
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
 
         if not transformer:
             transformer = [
