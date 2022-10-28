@@ -90,6 +90,92 @@ class VGG16(nn.Module):
         return x
 
 
+class ResNet18(nn.Module):
+
+    def __init__(
+            self,
+            inputs: tuple = (3, 224, 224),
+            outputs: int = 20):
+
+        super().__init__()
+
+        self.flatten = nn.Flatten(1, 3)
+
+    def input_block(
+            self,
+            x: torch.Tensor):
+
+        block = nn.Sequential(
+                    nn.Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False),
+                    nn.BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
+                    ReLU(inplace=True),
+                    nn.MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False),
+                )
+
+        return block(x)
+
+    def basic_block(
+            self,
+            x: torch.Tensor,
+            input_size: int,
+            output_size: int):
+
+        if input_size != output_size:
+            down_conv1 = Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            down_bn1 = BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+
+        block = nn.Sequential(
+            Conv2d(size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            atchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            ReLU(inplace=True)
+            Conv2d(output_size, output_size, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            BatchNorm2d(output_size, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True))
+
+        x = F.relu(x)
+
+        if input_size == output_size:
+            out = block(x) + x
+        else:
+            downsampled_x = down_bn1(down_conv1(x))
+            out = block(x) + downsampled_x
+
+        out = F.relu(out)
+
+        return out
+
+    def output_block(
+            self,
+            x: torch.Tensor,
+            input_feature_size: int,
+            output_feature_size: int):
+
+            avgpool = nn.AdaptiveAvgPool2d(output_size=(7, 7)),
+            linear = nn.Linear(in_features=input_feature_size, out_features=output_feature_size, bias=True)
+
+            x = avgpool(x)
+            x = self.flatten(x)
+            x = linear(x)
+
+            return x
+
+    def forward(
+            self,
+            x: torch.Tensor):
+
+        x = self.input_block(x)
+        x = self.basic_block(x, 64, 64)
+        x = self.basic_block(x, 64, 64)
+        x = self.basic_block(x, 64, 128)
+        x = self.basic_block(x, 128, 128)
+        x = self.basic_block(x, 128, 256)
+        x = self.basic_block(x, 256, 256)
+        x = self.basic_block(x, 256, 512)
+        x = self.basic_block(x, 512, 512)
+        x = self.output_block(512, outputs)
+
+        return x
+
+
 if __name__ == "__main__":
     model = VGG16()
     print(model)
