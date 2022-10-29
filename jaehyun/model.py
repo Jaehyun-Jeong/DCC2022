@@ -186,7 +186,7 @@ class ResNet18(nn.Module):
             output_feature_size: int):
 
         block = nn.Sequential(
-            nn.AdaptiveAvgPool2d(output_size=(7, 7)),
+            nn.AdaptiveAvgPool2d(output_size=(1, 1)),
             nn.Flatten(1, 3),
             nn.Linear(in_features=input_feature_size, out_features=output_feature_size, bias=True),)
 

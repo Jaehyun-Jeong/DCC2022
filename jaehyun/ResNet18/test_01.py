@@ -16,7 +16,8 @@ from torchvision import transforms
 if __name__ == '__main__':
 
 # Use Gpu
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    # device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cpu')
     model = ResNet18((3, 224, 224), 20)
 
     transformer = [
@@ -27,14 +28,14 @@ if __name__ == '__main__':
 # Train loader
     train_dataloader = Load(
             transformer,
-            num_workers=4,
+            num_workers=2,
             batch_size=256)
     _, trainloader = train_dataloader("../augmented_dataset/train")
 
 # Validation loader
     valid_dataloader = Load(
             transformer,
-            num_workers=4,
+            num_workers=2,
             batch_size=256)
     _, valloader = valid_dataloader("../augmented_dataset/valid")
 
