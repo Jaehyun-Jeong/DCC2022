@@ -24,12 +24,14 @@ transformer = [
 # Train loader
 train_dataloader = Load(
         transformer,
+        num_workers=16,
         batch_size=256)
 _, trainloader = train_dataloader("../augmented_dataset/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
+        num_workers=16,
         batch_size=256)
 _, valloader = valid_dataloader("../augmented_dataset/valid")
 
