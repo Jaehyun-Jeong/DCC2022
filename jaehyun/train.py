@@ -240,11 +240,26 @@ class Trainer():
             train_losses.append(result['train loss'])
             test_losses.append(result['test loss'])
 
-        plt.plot(np.arange(len(train_losses)), train_losses, marker='.', c='blue', label="Train Loss")
-        plt.plot(np.arange(len(test_losses)), test_losses, marker='.', c='red', label="Test Loss")
+        plt.plot(np.arange(len(train_losses)), train_losses, c='blue', label="Train Loss")
+        plt.plot(np.arange(len(test_losses)), test_losses, c='red', label="Test Loss")
         plt.legend(loc='upper right')
         plt.xlabel('epoch')
         plt.ylabel('loss')
+        plt.show()
+
+    def f1_graph(
+            self,
+            save_dir=None,
+            ):
+
+        f1s = []
+        for result in self._results:
+            f1s.append(result['f1-score'])
+
+        plt.plot(np.arange(len(f1s)), f1s, c='blue', label="f1-score")
+        plt.legend(loc='upper right')
+        plt.xlabel('epoch')
+        plt.ylabel('f1-score')
         plt.show()
 
 

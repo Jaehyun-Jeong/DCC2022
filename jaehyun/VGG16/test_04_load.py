@@ -28,3 +28,4 @@ trainer = Trainer(
 trainer.load("./saved_models/test_04.obj")
 
 trainer.loss_graph()
+trainer.f1_graph()
