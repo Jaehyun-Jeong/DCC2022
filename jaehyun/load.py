@@ -1,26 +1,35 @@
+from typing import List
+
 import torch
 import torchvision
 import torchvision.transforms as transforms
 import numpy as np
+from PIL import ImageFile
 
 
 class Load():
 
     def __init__(
             self,
+            transformer = None,
+            num_workers: int = 10,
             batch_size: int = 4,
-            flatten: bool = False):
+            flatten: bool = False,
+            ):
+        
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-        transformer = [
-             transforms.ToTensor(),
-             transforms.Resize((128, 128)),
-             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+        if not transformer:
+            transformer = [
+                    transforms.ToTensor()
+                    ]
 
         if flatten:
             transformer.append(transforms.Lambda(torch.flatten))
 
         self.transform = transforms.Compose(transformer)
         self.batch_size = batch_size
+        self.num_workers = num_workers
 
     def __call__(
             self,
@@ -33,7 +42,7 @@ class Load():
                 dataset,
                 batch_size=self.batch_size,
                 shuffle=True,
-                num_workers=2)
+                num_workers=self.num_workers)
 
         return dataset, dataloader
 
@@ -86,13 +95,99 @@ class Load():
 
         return label_dataset.numpy()
 
+    def filename(
+            self,
+            directory: str,
+            label_name: str,
+            ) -> List[str]:
+
+        dataset, dataloader = self(directory)
+
+        label_idx = dataset.class_to_idx[label_name]
+        label_idx_list = [
+                idx for idx, target_idx in enumerate(dataset.targets)
+                if target_idx == label_idx]
+
+        filename_list = []
+        for idx in label_idx_list:
+            filename_list.append(dataset.imgs[idx][0])
+
+        return filename_list
+
 
 if __name__ == "__main__":
 
-    Loader = Load()
-    dataset, targetset = Loader.tensor('./dataset')
+    import matplotlib.pyplot as plt
 
-    print(dataset.shape)
-    print(len(targetset))
+    # Augmentation
+    agmt = [
+            transforms.RandomHorizontalFlip(p=1),
+            transforms.RandomVerticalFlip(p=1),
+            transforms.RandomRotation(degrees=(0, 180)),
+            transforms.RandomAffine(
+                degrees=(30, 70),
+                translate=(0.1, 0.3),
+                scale=(0.5, 0.75)),
+            ]
+    agmt_names = [
+            'Horizontal Flip',
+            'Vertical Flip',
+            'Rotation',
+            'Affine',
+            ]
 
-    pass
+    transformer = [
+            transforms.Resize((100, 100)),
+            transforms.ToTensor(),
+            ]
+
+    fig, axes = plt.subplots(len(agmt) + 1, 4)
+
+    # Load Image
+    Loader = Load(transformer)
+    dataset, _ = Loader("final_dataset\\train\\")
+    origin_images = [dataset[i][0] for i in range(4)]
+
+    images = origin_images
+    image = images[0].numpy().transpose(1, 2, 0)
+    axes[0][0].imshow(image)
+    axes[0][0].set_xticks([])
+    axes[0][0].set_yticks([])
+    axes[0][0].set_ylabel('original', fontsize=8)
+    image = images[1].numpy().transpose(1, 2, 0)
+    axes[0][1].imshow(image)
+    axes[0][1].set_xticks([])
+    axes[0][1].set_yticks([])
+    image = images[2].numpy().transpose(1, 2, 0)
+    axes[0][2].imshow(image)
+    axes[0][2].set_xticks([])
+    axes[0][2].set_yticks([])
+    image = images[3].numpy().transpose(1, 2, 0)
+    axes[0][3].imshow(image)
+    axes[0][3].set_xticks([])
+    axes[0][3].set_yticks([])
+
+    for idx, transform in enumerate(agmt):
+        images = [transform(image) for image in origin_images]
+
+        image = images[0].numpy().transpose(1, 2, 0)
+        axes[idx+1][0].imshow(image)
+        axes[idx+1][0].set_xticks([])
+        axes[idx+1][0].set_yticks([])
+        axes[idx+1][0].set_ylabel(
+                agmt_names[idx],
+                fontsize=8)
+        image = images[1].numpy().transpose(1, 2, 0)
+        axes[idx+1][1].imshow(image)
+        axes[idx+1][1].set_xticks([])
+        axes[idx+1][1].set_yticks([])
+        image = images[2].numpy().transpose(1, 2, 0)
+        axes[idx+1][2].imshow(image)
+        axes[idx+1][2].set_xticks([])
+        axes[idx+1][2].set_yticks([])
+        image = images[3].numpy().transpose(1, 2, 0)
+        axes[idx+1][3].imshow(image)
+        axes[idx+1][3].set_xticks([])
+        axes[idx+1][3].set_yticks([])
+
+    plt.show()

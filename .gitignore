@@ -4,3 +4,8 @@
 **__pycache__/
 .vimspector.json
 **dataset/
+**clean_dataset/
+**final_dataset/
+**saved_models/
+**augmented_dataset/
+**train_val_test_dataset/
