@@ -2,6 +2,8 @@ from typing import Dict, Union
 import math
 import copy
 
+import numpy as np
+import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from sklearn.metrics import precision_recall_fscore_support
 import torch
@@ -226,6 +228,24 @@ class Trainer():
 
         # measure previous epoch start time
         self._time_prev_epoch = datetime.now()
+
+    def loss_graph(
+            self,
+            save_dir=None,
+            ):
+
+        train_losses = []
+        test_losses = []
+        for result in self._results:
+            train_losses.append(result['train loss'])
+            test_losses.append(result['test loss'])
+
+        plt.plot(np.arange(len(train_losses)), train_losses, marker='.', c='blue', label="Train Loss")
+        plt.plot(np.arange(len(test_losses)), test_losses, marker='.', c='red', label="Test Loss")
+        plt.legend(loc='upper right')
+        plt.xlabel('epoch')
+        plt.ylabel('loss')
+        plt.show()
 
 
 if __name__ == "__main__":

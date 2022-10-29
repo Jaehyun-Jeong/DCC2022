@@ -16,7 +16,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 model = VGG16((3, 224, 224), 20)
 
 transformer = [
-    transforms.Resize((224, 224)),
+    transforms.Resize(256), 
+    transforms.CenterCrop(224),
     transforms.ToTensor(),
     transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))]
 
@@ -24,13 +25,13 @@ transformer = [
 train_dataloader = Load(
         transformer,
         batch_size=256)
-_, trainloader = train_dataloader("../augmented_dataset/train")
+_, trainloader = train_dataloader("../train_val_test_dataset/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
         batch_size=256)
-_, valloader = valid_dataloader("../augmented_dataset/valid")
+_, valloader = valid_dataloader("../train_val_test_dataset/valid")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-6)
