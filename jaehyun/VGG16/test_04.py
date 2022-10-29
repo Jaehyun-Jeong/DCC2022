@@ -25,13 +25,13 @@ transformer = [
 train_dataloader = Load(
         transformer,
         batch_size=256)
-_, trainloader = train_dataloader("../train_val_test_dataset/train")
+_, trainloader = train_dataloader("../augmented_dataset/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
         batch_size=256)
-_, valloader = valid_dataloader("../train_val_test_dataset/valid")
+_, valloader = valid_dataloader("../augmented_dataset/valid")
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-6)
