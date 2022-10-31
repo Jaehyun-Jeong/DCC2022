@@ -8,5 +8,5 @@
 **final_dataset/
 **saved_models/
 **augmented_dataset/
-**random_augmented_dataset
+**random_augmented_dataset/
 **train_val_test_dataset/
