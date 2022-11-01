@@ -12,7 +12,7 @@ from torch.optim import lr_scheduler
 from torchvision import transforms
 
 
-# windows multiprocessing need this if line
+# windows multiprocessing needs below if line
 if __name__ == '__main__':
 
 # Use Gpu
