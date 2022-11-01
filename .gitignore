@@ -9,4 +9,5 @@
 **saved_models/
 **augmented_dataset/
 **random_augmented_dataset/
+**random_augmented_dataset_v2/
 **train_val_test_dataset/
