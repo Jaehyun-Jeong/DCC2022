@@ -10,11 +10,12 @@ from torch import nn
 from torch import optim
 from torch.optim import lr_scheduler
 from torchvision import transforms
+from torchvision.ops import sigmoid_focal_loss
 
 if __name__ == "__main__":
 
 # Use Gpu
-    device = torch.device('cpu')
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = VGG16((3, 224, 224), 20)
 
     transformer = [
@@ -23,14 +24,21 @@ if __name__ == "__main__":
         transforms.ToTensor(),
         transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))]
 
+# Train loader
+    train_dataloader = Load(
+            transformer,
+            num_workers=2,
+            batch_size=128)
+    _, trainloader = train_dataloader("../random_augmented_dataset_v2/train")
+
 # Validation loader
     valid_dataloader = Load(
             transformer,
-            num_workers=1,
+            num_workers=2,
             batch_size=128)
-    _, valloader = valid_dataloader("../random_augmented_dataset/valid")
+    _, valloader = valid_dataloader("../random_augmented_dataset_v2/valid")
 
-    criterion = nn.CrossEntropyLoss()
+    criterion = sigmoid_focal_loss
     optimizer = optim.Adam(model.parameters(), lr=1e-6)
 
 # Init Trainer
@@ -41,8 +49,13 @@ if __name__ == "__main__":
             device=device,
             )
 
-    trainer.load("./saved_models/test_06.obj")
-
-    trainer.loss_graph()
-    trainer.f1_graph()
-    trainer.confusion_matrix(valloader)
+# Train
+    trainer.train(
+            3000,
+            trainloader,
+            valloader,
+            autosave_params={
+                'use_autosave': True,
+                'save_dir': './saved_models/test_08.obj',
+                },
+            )

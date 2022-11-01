@@ -2,6 +2,7 @@ from typing import Dict, Union
 import math
 import copy
 
+import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ import torch
 import torch.optim as optim
 from torch import nn
 import torchvision.transforms as transforms
+from torchmetrics import ConfusionMatrix
 
 # Ignore warnings
 import warnings
@@ -260,6 +262,27 @@ class Trainer():
         plt.legend(loc='upper right')
         plt.xlabel('epoch')
         plt.ylabel('f1-score')
+        plt.show()
+
+    def confusion_matrix(
+            self,
+            test_loader,
+            save_dir=None,
+            ):
+
+        confmat = ConfusionMatrix(num_classes=20)
+        confmat_result = torch.zeros(20, 20)
+
+        for data in test_loader:
+            images = data[0].to(self.device)
+            labels = data[1].to(self.device)
+
+            outputs = self.model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            confmat_result += confmat(predicted, labels).cpu().numpy()
+
+        sns.set()
+        sns.heatmap(confmat_result, annot=True)
         plt.show()
 
 
