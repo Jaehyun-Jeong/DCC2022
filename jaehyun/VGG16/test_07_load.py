@@ -16,6 +16,7 @@ if __name__ == "__main__":
 # Use Gpu
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = VGG16((3, 224, 224), 20)
+
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-6)
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":
             device=device,
             )
 
-    trainer.load("./saved_models/test_04.obj")
+    trainer.load("./saved_models/test_07.obj")
 
     trainer.loss_graph()
     trainer.f1_graph()

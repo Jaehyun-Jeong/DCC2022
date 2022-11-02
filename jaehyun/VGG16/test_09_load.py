@@ -4,6 +4,7 @@ sys.path.append("../")
 from train import Trainer
 from model import VGG16
 from load import Load
+from utils import FocalLoss
 
 import torch
 from torch import nn
@@ -16,7 +17,8 @@ if __name__ == "__main__":
 # Use Gpu
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = VGG16((3, 224, 224), 20)
-    criterion = nn.CrossEntropyLoss()
+
+    criterion = FocalLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-6)
 
 # Init Trainer
@@ -27,7 +29,7 @@ if __name__ == "__main__":
             device=device,
             )
 
-    trainer.load("./saved_models/test_04.obj")
+    trainer.load("./saved_models/test_09.obj")
 
     trainer.loss_graph()
     trainer.f1_graph()
