@@ -35,6 +35,13 @@ class Load():
             self,
             directory: str):
 
+        # balanced sampler
+        counts = bincount(y_train)
+        labels_weights = 1. / counts
+        list(zip(range(10), counts))
+        weights = labels_weights[y_train]
+        ws = WeightedRandomSampler(weights, len(weights), replacement=True)
+
         dataset = torchvision.datasets.ImageFolder(
                 root=directory,
                 transform=self.transform)

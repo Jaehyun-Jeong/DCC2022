@@ -27,17 +27,17 @@ train_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, trainloader = train_dataloader("../random_augmented_dataset_v2/train")
+_, trainloader = train_dataloader("../random_augmented_dataset_v4/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, valloader = valid_dataloader("../random_augmented_dataset_v2/valid")
+_, valloader = valid_dataloader("../random_augmented_dataset_v4/valid")
 
 criterion = FocalLoss()
-optimizer = optim.Adam(model.parameters(), lr=1e-6)
+optimizer = optim.Adam(model.parameters(), lr=3e-6)
 
 # Init Trainer
 trainer = Trainer(
@@ -48,12 +48,38 @@ trainer = Trainer(
         )
 
 # Train
+
+
 trainer.train(
-        3000,
+        30,
         trainloader,
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_09.obj',
+            'save_dir': './saved_models/test_10.obj',
+            },
+        )
+
+trainer.optimizer.param_groups[0]['lr'] = 2e-6
+
+trainer.train(
+        50,
+        trainloader,
+        valloader,
+        autosave_params={
+            'use_autosave': True,
+            'save_dir': './saved_models/test_10.obj',
+            },
+        )
+
+trainer.optimizer.param_groups[0]['lr'] = 1e-6
+
+trainer.train(
+        120,
+        trainloader,
+        valloader,
+        autosave_params={
+            'use_autosave': True,
+            'save_dir': './saved_models/test_10.obj',
             },
         )
