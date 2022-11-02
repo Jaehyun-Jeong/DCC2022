@@ -210,7 +210,7 @@ class Trainer():
             self,
             saveDir: str):
 
-        torch.save(model.state_dict(), saveDir)
+        torch.save(self.model.state_dict(), saveDir)
 
     # Load class
     def load(self, loadDir: str):

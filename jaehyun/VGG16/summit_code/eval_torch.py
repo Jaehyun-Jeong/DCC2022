@@ -82,7 +82,7 @@ if __name__ == "__main__":
     DATA_DIR = "~/valid"
     '''
     
-    DATA_DIR = "YOUR DATA DIRECTORY" 
+    DATA_DIR = "../../train_val_test_dataset/valid" 
     IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
     IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
     transform = transforms.Compose([

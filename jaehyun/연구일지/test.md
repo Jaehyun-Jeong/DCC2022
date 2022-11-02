@@ -90,10 +90,23 @@ test_10부터 lr 3e-6에서 30epoch, 2e-6에서 50epoch, 1e-6에서 100epoch<br/
 ## 11
 
 focal_loss 사용<br/>
+dataset: random_augmented_dataset_v4 (L2_25, L2_30을 60%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+batch_size = 128<br/>
+lr = 1e-6<br/>
+
+random_augmented_dataset_v3가 더 좋은 데이터 셋이라고 판단, 따라서 이제부터 random_augmented_dataset_v3로 실험을 진행
+
+## 12
+
+focal_loss 사용<br/>
 dataset: random_augmented_dataset_v3 (L2_25, L2_30을 60%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
+아래의 주소에서 소개된 WeightedRandomSampler를 사용하여 테스트 진행<br/>
+<https://www.kaggle.com/code/maulberto3/mnist-simple-pytorch-cnn-3-layer-98/notebook?scriptVersionId=87318629&cellId=6><br/>
+
+> WeightedRandomSampler: imbalance 데이터에서 batch 데이터를 가져올 때, balance하게 가져오기 위한 샘플링 방법
 
 # ResNet18
 

@@ -31,5 +31,9 @@ if __name__ == "__main__":
 
     trainer.load("./saved_models/test_09.obj")
 
+    '''
     trainer.loss_graph()
     trainer.f1_graph()
+    '''
+
+    trainer.save_pth("./summit_code/model.pth")

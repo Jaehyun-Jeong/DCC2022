@@ -31,5 +31,9 @@ trainer = Trainer(
 
 trainer.load("./saved_models/test_10.obj")
 
+'''
 trainer.loss_graph()
 trainer.f1_graph()
+'''
+
+trainer.save_pth("./saved_models/test_10.pth")
