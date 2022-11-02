@@ -206,6 +206,12 @@ class Trainer():
 
         torch.save(save_dict, saveDir)
 
+    def save_pth(
+            self,
+            saveDir: str):
+
+        torch.save(model.state_dict(), saveDir)
+
     # Load class
     def load(self, loadDir: str):
 
@@ -284,6 +290,8 @@ class Trainer():
         sns.set()
         sns.heatmap(confmat_result, annot=True)
         plt.show()
+
+
 
 
 if __name__ == "__main__":

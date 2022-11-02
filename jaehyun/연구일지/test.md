@@ -77,6 +77,10 @@ dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
+test_10부터 lr 3e-6에서 30epoch, 2e-6에서 50epoch, 1e-6에서 100epoch<br/>
+
+> test_loss가 떨어졌음에도 불구하고 f1-score가 올라간 경우가 발견되었다. 이는 예측의 확신은 떨어졌지만 결국 예측을 잘하게 된 경우라고 생각된다.
+
 ## 11
 
 focal_loss 사용<br/>
@@ -84,7 +88,6 @@ dataset: random_augmented_dataset_v3 (L2_25, L2_30을 60%까지 줄이고 random
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
-lr 3e-6에서 30epoch, 2e-6에서 50epoch, 1e-6에서 100epoch
 
 # ResNet18
 
