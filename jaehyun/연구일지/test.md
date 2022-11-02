@@ -99,7 +99,7 @@ random_augmented_dataset_v3가 더 좋은 데이터 셋이라고 판단, 따라�
 ## 12
 
 focal_loss 사용<br/>
-dataset: random_augmented_dataset_v3 (L2_25, L2_30을 60%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+dataset: random_augmented_dataset_v3
 batch_size = 128<br/>
 lr = 1e-6<br/>
 

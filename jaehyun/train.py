@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import precision_recall_fscore_support, classification_report
 import torch
 import torch.optim as optim
 from torch import nn
@@ -157,6 +157,28 @@ class Trainer():
                 'test loss': test_loss}
 
         return results
+
+    @torch.no_grad()
+    def f1_score(
+            self,
+            test_loader) -> Dict[str, float]:
+
+        for data in test_loader:
+            images = data[0].to(self.device)
+            labels = data[1].to(self.device)
+
+            outputs = self.model(images)
+            _, predicted = torch.max(outputs.data, 1)
+
+            # To change it to numpy.ndarray
+            labels = labels.cpu().numpy()
+            predicted = predicted.cpu().numpy()
+
+            result = classification_report(labels, predicted, output_dict=True)
+
+            print(type(result))
+            print(result)
+            raise ValueError("test")
 
     def __print_results(
             self,
