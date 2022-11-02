@@ -128,3 +128,15 @@ lr = 1e-6<br/>
 
 ![](./static/ResNet18_test_02_train_test_loss.png)<br/>
 ![](./static/ResNet18_test_02_f1score.png)<br/>
+
+# ResNet50
+
+torchvision의 소스코드를 참고하여 ResNet50 class를 만들었다.<br/>
+<https://github.com/pytorch/vision/blob/6db1569c89094cf23f3bc41f79275c45e9fcb3f3/torchvision/models/resnet.py#L124>
+
+## 01
+
+focal_loss 사용<br/>
+dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+batch_size = 128<br/>
+lr = 1e-6<br/>
