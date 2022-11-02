@@ -131,6 +131,10 @@ lr = 1e-6<br/>
 
 # ResNet50
 
+Resnet50는 다음 논문에 소개되어 있다.<br/>
+<https://arxiv.org/pdf/1512.03385v1.pdf><br/>
+**위 논문의 table-6를 참고하여 ResNet101도 테스트 하기로 결정했다.**
+
 torchvision의 소스코드를 참고하여 ResNet50 class를 만들었다.<br/>
 <https://github.com/pytorch/vision/blob/6db1569c89094cf23f3bc41f79275c45e9fcb3f3/torchvision/models/resnet.py#L124>
 
