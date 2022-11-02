@@ -56,7 +56,7 @@ trainer.train(
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_10.obj',
+            'save_dir': './saved_models/test_11.obj',
             },
         )
 
@@ -68,7 +68,7 @@ trainer.train(
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_10.obj',
+            'save_dir': './saved_models/test_11.obj',
             },
         )
 
@@ -80,6 +80,6 @@ trainer.train(
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_10.obj',
+            'save_dir': './saved_models/test_11.obj',
             },
         )
