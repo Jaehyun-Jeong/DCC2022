@@ -57,7 +57,7 @@ Random_augmented_dataset은 최대 7배까지만 데이터를 증가시킨다. �
 ## 08
 
 focal_loss 사용<br/>
-dataset: random_augented_dataset_v2<br/>
+dataset: random_augented_dataset<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
