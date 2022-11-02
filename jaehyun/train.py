@@ -2,6 +2,7 @@ from typing import Dict, Union
 import math
 import copy
 
+import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
@@ -163,6 +164,9 @@ class Trainer():
             self,
             test_loader) -> Dict[str, float]:
 
+        total_labels = np.array([])
+        total_preds = np.array([])
+
         for data in test_loader:
             images = data[0].to(self.device)
             labels = data[1].to(self.device)
@@ -172,13 +176,15 @@ class Trainer():
 
             # To change it to numpy.ndarray
             labels = labels.cpu().numpy()
+            np.concatenate([total_labels, labels])
             predicted = predicted.cpu().numpy()
+            np.concatenate([total_preds, predicted])
 
-            result = classification_report(labels, predicted, output_dict=True)
+        result = classification_report(total_labels, total_preds, output_dict=True)
 
-            print(type(result))
-            print(result)
-            raise ValueError("test")
+        print(pd.DataFrame(result))
+
+        raise ValueError("test")
 
     def __print_results(
             self,
