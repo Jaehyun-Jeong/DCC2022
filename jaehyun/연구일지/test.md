@@ -143,4 +143,6 @@ torchvision의 소스코드를 참고하여 ResNet50 class를 만들었다.<br/>
 focal_loss 사용<br/>
 dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
 batch_size = 128<br/>
-lr = 1e-6<br/>
+lr = 3e-6 ~ 1e-7<br/>
+
+3e-6, 2e-6, 1e-6, 1e-7에서 각각, 10 epoch씩 학습했다.
