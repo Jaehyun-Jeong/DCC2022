@@ -147,7 +147,7 @@ lr = 1e-6<br/>
 
 **test_loss의 수렴값이 너무 커서 learning rate를 줄이고 학습하기로 결정했다.**
 
-## 01
+## 02
 
 focal_loss 사용<br/>
 dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
