@@ -70,8 +70,8 @@ dataset: random_augmented_dataset_v2<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
-![](VGG16_test_09_train_test_loss.png)<br/>
-![](VGG16_test_09_f1score.png)<br/>
+![](./static/VGG16_test_09_train_test_loss.png)<br/>
+![](./static/VGG16_test_09_f1score.png)<br/>
 
 ## 10
 
@@ -80,8 +80,8 @@ dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
-![](VGG16_test_10_train_test_loss.png)<br/>
-![](VGG16_test_10_f1score.png)<br/>
+![](./static/VGG16_test_10_train_test_loss.png)<br/>
+![](./static/VGG16_test_10_f1score.png)<br/>
 
 test_10부터 lr 3e-6에서 30epoch, 2e-6에서 50epoch, 1e-6에서 100epoch<br/>
 
