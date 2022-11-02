@@ -70,12 +70,18 @@ dataset: random_augmented_dataset_v2<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
+![](VGG16_test_09_train_test_loss.png)<br/>
+![](VGG16_test_09_f1score.png)<br/>
+
 ## 10
 
 focal_loss 사용<br/>
 dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
+
+![](VGG16_test_10_train_test_loss.png)<br/>
+![](VGG16_test_10_f1score.png)<br/>
 
 test_10부터 lr 3e-6에서 30epoch, 2e-6에서 50epoch, 1e-6에서 100epoch<br/>
 
@@ -98,8 +104,14 @@ batch_size = 256<br/>
 lr = 0.0003<br/>
 stepLR, gamma = 0.1, step_size = 30, last_epoch = 30 * 2<br/>
 
+![](./static/ResNet18_test_01_train_test_loss.png)<br/>
+![](./static/ResNet18_test_01_f1score.png)<br/>
+
 ## 02
 
 dataset: random_augmented_dataset<br/>
 batch_size = 256<br/>
 lr = 1e-6<br/>
+
+![](./static/ResNet18_test_02_train_test_loss.png)<br/>
+![](./static/ResNet18_test_02_f1score.png)<br/>
