@@ -203,3 +203,20 @@ lr = 3e-6 ~ 1e-6<br/>
 ![](./static/ResNet101_test_03_f1score.png)<br/>
 
 **ResNet이 imbalance에 더 민감한 모델일 수 있다고 생각하여, random_augmented_dataset_v4로 시도했지만 결과는 좋지 못함**
+
+# VGG16_v2
+
+**VGG16은 1000개의 클래스를 구분하기 위해 만들어졌다. 하지만 이번 task는 20개의 클래스만을 가진다. 즉, 20개의 출력단을 가진다. 따라서 다음과 같이 VGG16 마지막단의 fully connected layer를 수정했다.**<br/>
+
+![](./static/VGG16_fc_layers.png)<br/>
+*VGG16*
+
+![](./static/VGG16_v2_fc_layers.png)<br/>
+*VGG16_v2*
+
+## 01
+
+focal_loss 사용<br/>
+dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+batch_size = 128<br/>
+lr = 1e-6<br/>
