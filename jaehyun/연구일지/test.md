@@ -174,3 +174,14 @@ batch_size = 128<br/>
 lr = 3e-6 ~ 1e-6<br/>
 
 3e-6을 10 epoch, 2e-6을 20 epoch 그리고 나머지를 1e-6에서 학습했다.
+
+**VGG16와 비교해 뛰어난 성능을 보여줄 것이라 예상했지만(논문의 결과에 의겨하여), 별로 결과가 좋지 못했다. 따라서 loss function에서 문제가 있는지 확인하기 위해 다시 Cross Entropy Loss를 사용하도록 하겠다.**
+
+## 02
+
+Cross Entropy Loss 사용<br/>
+dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+batch_size = 128<br/>
+lr = 3e-6 ~ 1e-6<br/>
+
+
