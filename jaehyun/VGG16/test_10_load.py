@@ -24,11 +24,11 @@ if __name__ == "__main__":
     valid_dataloader = Load(
             transformer,
             num_workers=2,
-            batch_size=128)
+            batch_size=32)
     _, valloader = valid_dataloader("../random_augmented_dataset_v3/valid")
 
 # Use Gpu
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cpu')
     model = VGG16((3, 224, 224), 20)
 
     criterion = FocalLoss()
@@ -51,5 +51,7 @@ if __name__ == "__main__":
     trainer.f1_graph()
 
     trainer.f1_score(valloader)
-    '''
     trainer.save_pth("./saved_models/test_10.pth")
+    '''
+
+    trainer.f1_score(valloader)

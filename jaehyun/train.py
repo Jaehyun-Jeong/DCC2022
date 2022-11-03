@@ -176,9 +176,9 @@ class Trainer():
 
             # To change it to numpy.ndarray
             labels = labels.cpu().numpy()
-            np.concatenate([total_labels, labels])
+            total_labels = np.concatenate([total_labels, labels])
             predicted = predicted.cpu().numpy()
-            np.concatenate([total_preds, predicted])
+            total_preds = np.concatenate([total_preds, predicted])
 
         result = classification_report(total_labels, total_preds, output_dict=True)
 
