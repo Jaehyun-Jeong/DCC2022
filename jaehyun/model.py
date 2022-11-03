@@ -482,7 +482,7 @@ class ResNet101(nn.Module):
             self,
             input_feature_size: int,
             output_feature_size: int):
-
+            
         block = nn.Sequential(
             nn.AdaptiveAvgPool2d(output_size=(1, 1)),
             nn.Flatten(1, 3),
@@ -534,5 +534,10 @@ class ResNet101(nn.Module):
 
 
 if __name__ == "__main__":
-    model = ResNet50((3, 224, 224), 20)
-    print(model)
+
+    from torchvision.models import resnet101
+    from torchsummary import summary
+
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    model = resnet101()
+    summary(model, (3, 224, 224), device=device.type)
