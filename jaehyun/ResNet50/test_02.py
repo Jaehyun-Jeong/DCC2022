@@ -39,7 +39,7 @@ if __name__ == "__main__":
     _, valloader = valid_dataloader("../random_augmented_dataset_v3/valid")
 
     criterion = FocalLoss()
-    optimizer = optim.Adam(model.parameters(), lr=1e-6)
+    optimizer = optim.Adam(model.parameters(), lr=2e-6)
 
 # Init Trainer
     trainer = Trainer(
@@ -51,11 +51,35 @@ if __name__ == "__main__":
 
 # Train
     trainer.train(
-            65,
+            10,
             trainloader,
             valloader,
             autosave_params={
                 'use_autosave': True,
-                'save_dir': './saved_models/test_01.obj',
+                'save_dir': './saved_models/test_02.obj',
+                },
+            )
+
+    trainer.optimizer.param_groups[0]['lr'] = 1e-6
+
+    trainer.train(
+            10,
+            trainloader,
+            valloader,
+            autosave_params={
+                'use_autosave': True,
+                'save_dir': './saved_models/test_02.obj',
+                },
+            )
+
+    trainer.optimizer.param_groups[0]['lr'] = 1e-7
+
+    trainer.train(
+            10,
+            trainloader,
+            valloader,
+            autosave_params={
+                'use_autosave': True,
+                'save_dir': './saved_models/test_02.obj',
                 },
             )
