@@ -157,4 +157,20 @@ dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random
 batch_size = 128<br/>
 lr = 2e-6 ~ 1e-7<br/>
 
+![](./static/ResNet50_test_02_train_test_loss.png)<br/>
+![](./static/ResNet50_test_02_f1score.png)<br/>
+
 2e-6, 1e-6 에서 10 epoch 씩 학습하고, 나머지는 1e-7에서 학습했다.
+
+**train_loss가 줄어듦에도, test_loss가 줄어들지 않는다.(results폴더 확인) 따라서 learning rate의 문제가 아니라고 확신했고, ResNet101을 사용해 보기로 결정**
+
+# ResNet101
+
+## 01
+
+focal_loss 사용<br/>
+dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
+batch_size = 128<br/>
+lr = 3e-6 ~ 1e-6<br/>
+
+3e-6을 10 epoch, 2e-6을 20 epoch 그리고 나머지를 1e-6에서 학습했다.
