@@ -75,7 +75,7 @@ if __name__ == "__main__":
     trainer.optimizer.param_groups[0]['lr'] = 1e-7
 
     trainer.train(
-            10,
+            1000,
             trainloader,
             valloader,
             autosave_params={
