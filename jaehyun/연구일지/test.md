@@ -199,4 +199,7 @@ dataset: random_augmented_dataset_v4 (L2_25, L2_30을 80%까지 줄이고 random
 batch_size = 128<br/>
 lr = 3e-6 ~ 1e-6<br/>
 
+![](./static/ResNet101_test_03_train_test_loss.png)<br/>
+![](./static/ResNet101_test_03_f1score.png)<br/>
+
 **ResNet이 imbalance에 더 민감한 모델일 수 있다고 생각하여, random_augmented_dataset_v4로 시도했지만 결과는 좋지 못함**
