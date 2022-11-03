@@ -145,6 +145,9 @@ dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random
 batch_size = 128<br/>
 lr = 1e-6<br/>
 
+![](./static/ResNet50_test_01_train_test_loss.png)<br/>
+![](./static/ResNet50_test_01_f1score.png)<br/>
+
 **test_loss의 수렴값이 너무 커서 learning rate를 줄이고 학습하기로 결정했다.**
 
 ## 02

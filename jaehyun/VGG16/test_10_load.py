@@ -49,7 +49,7 @@ if __name__ == "__main__":
     '''
     trainer.loss_graph()
     trainer.f1_graph()
-    trainer.save_pth("./saved_models/test_10.pth")
-    '''
 
     trainer.f1_score(valloader)
+    '''
+    trainer.save_pth("./saved_models/test_10.pth")
