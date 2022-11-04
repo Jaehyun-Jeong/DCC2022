@@ -220,3 +220,15 @@ focal_loss 사용<br/>
 dataset: random_augmented_dataset_v3 (L2_25, L2_30을 80%까지 줄이고 random_augmented_dataset과 동일한 코드로 augmentation한 데이터 셋 (최대 7배))<br/>
 batch_size = 128<br/>
 lr = 1e-6<br/>
+
+![](./static/VGG16_v2_test_01_train_test_loss.png)<br/>
+![](./static/VGG16_v2_test_01_f1score.png)<br/>
+
+200 epoch 동안 수렴을 못했지만, 계속해서 수렴하고 있음을 확인할 수 있다. 따라서 random_augmented_dataset_v5로 테스트해보겠다.
+
+## 02
+
+focal_loss 사용<br/>
+dataset: random_augmented_dataset_v5<br/>
+batch_size = 128<br/>
+lr = 1e-6<br/>
