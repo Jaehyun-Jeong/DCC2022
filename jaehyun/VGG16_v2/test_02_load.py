@@ -16,10 +16,6 @@ from torchvision import transforms
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 model = VGG16_v2((3, 224, 224), 20)
 
-<<<<<<< HEAD
-criterion = FocalLoss()
-optimizer = optim.Adam(model.parameters(), lr=3e-6)
-=======
 transformer = [
     transforms.Resize(256), 
     transforms.CenterCrop(224),
@@ -31,18 +27,17 @@ train_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, trainloader = train_dataloader("../random_augmented_dataset_v3/train")
+_, trainloader = train_dataloader("../random_augmented_dataset_v5/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, valloader = valid_dataloader("../random_augmented_dataset_v3/valid")
+_, valloader = valid_dataloader("../random_augmented_dataset_v5/valid")
 
 criterion = FocalLoss()
-optimizer = optim.Adam(model.parameters(), lr=1e-6)
->>>>>>> a0953e0 (finished)
+optimizer = optim.Adam(model.parameters(), lr=5e-7)
 
 # Init Trainer
 trainer = Trainer(
@@ -52,21 +47,15 @@ trainer = Trainer(
         device=device,
         )
 
-<<<<<<< HEAD
-trainer.load("./saved_models/test_01.obj")
-trainer.loss_graph()
-trainer.f1_graph()
-=======
-trainer.load('./saved_models/test_01.obj')
+trainer.load("./saved_models/test_02.obj")
 
 # Train
 trainer.train(
-        1000,
+        60,
         trainloader,
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_01.obj',
+            'save_dir': './saved_models/test_02.obj',
             },
         )
->>>>>>> a0953e0 (finished)

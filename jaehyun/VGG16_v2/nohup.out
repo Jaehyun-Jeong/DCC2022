@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/aicri/DCC2022/jaehyun/VGG16_v2/test_02.py", line 30, in <module>
+    _, trainloader = train_dataloader("../random_augmented_dataset_v5/train")
+  File "/home/aicri/DCC2022/jaehyun/VGG16_v2/../load.py", line 40, in __call__
+    dataset = torchvision.datasets.ImageFolder(
+  File "/home/aicri/.local/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 310, in __init__
+    super().__init__(
+  File "/home/aicri/.local/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 145, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+  File "/home/aicri/.local/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 219, in find_classes
+    return find_classes(directory)
+  File "/home/aicri/.local/lib/python3.10/site-packages/torchvision/datasets/folder.py", line 41, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+FileNotFoundError: [Errno 2] No such file or directory: '../random_augmented_dataset_v5/train'
