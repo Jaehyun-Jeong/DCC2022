@@ -8,6 +8,12 @@
 **final_dataset/
 **saved_models/
 **augmented_dataset/
+**random_augmented_dataset/
+**random_augmented_dataset_v2/
 **random_augmented_dataset_v3/
+**random_augmented_dataset_v4/
+**random_augmented_dataset_v5/
 **train_val_test_dataset/
-**summit_code/
+**train_val_test_dataset_v2/
+***.pth
+**test/
