@@ -2,12 +2,17 @@ from typing import Dict, Union
 import math
 import copy
 
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import precision_recall_fscore_support, classification_report
 import torch
 import torch.optim as optim
 from torch import nn
 import torchvision.transforms as transforms
+from torchmetrics import ConfusionMatrix
 
 # Ignore warnings
 import warnings
@@ -154,6 +159,33 @@ class Trainer():
 
         return results
 
+    @torch.no_grad()
+    def f1_score(
+            self,
+            test_loader) -> Dict[str, float]:
+
+        total_labels = np.array([])
+        total_preds = np.array([])
+
+        for data in test_loader:
+            images = data[0].to(self.device)
+            labels = data[1].to(self.device)
+
+            outputs = self.model(images)
+            _, predicted = torch.max(outputs.data, 1)
+
+            # To change it to numpy.ndarray
+            labels = labels.cpu().numpy()
+            total_labels = np.concatenate([total_labels, labels])
+            predicted = predicted.cpu().numpy()
+            total_preds = np.concatenate([total_preds, predicted])
+
+        result = classification_report(total_labels, total_preds, output_dict=True)
+
+        print(pd.DataFrame(result))
+
+        raise ValueError("test")
+
     def __print_results(
             self,
             epoch: int,
@@ -202,6 +234,12 @@ class Trainer():
 
         torch.save(save_dict, saveDir)
 
+    def save_pth(
+            self,
+            saveDir: str):
+
+        torch.save(self.model.state_dict(), saveDir)
+
     # Load class
     def load(self, loadDir: str):
 
@@ -226,6 +264,62 @@ class Trainer():
 
         # measure previous epoch start time
         self._time_prev_epoch = datetime.now()
+
+    def loss_graph(
+            self,
+            save_dir=None,
+            ):
+
+        train_losses = []
+        test_losses = []
+        for result in self._results:
+            train_losses.append(result['train loss'])
+            test_losses.append(result['test loss'])
+
+        plt.plot(np.arange(len(train_losses)), train_losses, c='blue', label="Train Loss")
+        plt.plot(np.arange(len(test_losses)), test_losses, c='red', label="Test Loss")
+        plt.legend(loc='upper right')
+        plt.xlabel('epoch')
+        plt.ylabel('loss')
+        plt.show()
+
+    def f1_graph(
+            self,
+            save_dir=None,
+            ):
+
+        f1s = []
+        for result in self._results:
+            f1s.append(result['f1-score'])
+
+        plt.plot(np.arange(len(f1s)), f1s, c='blue', label="f1-score")
+        plt.legend(loc='upper right')
+        plt.xlabel('epoch')
+        plt.ylabel('f1-score')
+        plt.show()
+
+    def confusion_matrix(
+            self,
+            test_loader,
+            save_dir=None,
+            ):
+
+        confmat = ConfusionMatrix(num_classes=20)
+        confmat_result = torch.zeros(20, 20)
+
+        for data in test_loader:
+            images = data[0].to(self.device)
+            labels = data[1].to(self.device)
+
+            outputs = self.model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            confmat_result += confmat(predicted, labels).cpu().numpy()
+
+        sns.set()
+        sns.heatmap(confmat_result, annot=True)
+        plt.show()
+
+
 
 
 if __name__ == "__main__":

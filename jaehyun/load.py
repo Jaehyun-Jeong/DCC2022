@@ -1,6 +1,7 @@
 from typing import List
 
 import torch
+from torch.utils.data import WeightedRandomSampler
 import torchvision
 import torchvision.transforms as transforms
 import numpy as np
@@ -11,12 +12,12 @@ class Load():
 
     def __init__(
             self,
-            transformer = None,
+            transformer=None,
             num_workers: int = 10,
             batch_size: int = 4,
             flatten: bool = False,
             ):
-        
+
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
         if not transformer:
@@ -33,16 +34,33 @@ class Load():
 
     def __call__(
             self,
-            directory: str):
+            directory: str,
+            balanced_sampling: bool = False):
 
         dataset = torchvision.datasets.ImageFolder(
                 root=directory,
                 transform=self.transform)
-        dataloader = torch.utils.data.DataLoader(
-                dataset,
-                batch_size=self.batch_size,
-                shuffle=True,
-                num_workers=self.num_workers)
+
+        if balanced_sampling:
+
+            # balanced sampler
+            counts = np.bincount(dataset.targets)
+            labels_weights = 1. / counts
+            weights = labels_weights[dataset.targets]
+            ws = WeightedRandomSampler(weights, len(weights), replacement=True)
+
+            dataloader = torch.utils.data.DataLoader(
+                    dataset,
+                    batch_size=self.batch_size,
+                    drop_last=True,
+                    num_workers=self.num_workers,
+                    sampler=ws)
+        else:
+            dataloader = torch.utils.data.DataLoader(
+                    dataset,
+                    batch_size=self.batch_size,
+                    shuffle=True,
+                    num_workers=self.num_workers)
 
         return dataset, dataloader
 
