@@ -8,4 +8,6 @@
 **final_dataset/
 **saved_models/
 **augmented_dataset/
+**random_augmented_dataset_v3/
 **train_val_test_dataset/
+**summit_code/
