@@ -2,7 +2,7 @@ import sys
 sys.path.append("../")
 
 from train import Trainer
-from model import VGG16_v2
+from model import VGG16
 from load import Load
 from utils import FocalLoss
 
@@ -14,12 +14,8 @@ from torchvision import transforms
 
 # Use Gpu
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-model = VGG16_v2((3, 224, 224), 20)
+model = VGG16((3, 224, 224), 20)
 
-<<<<<<< HEAD
-criterion = FocalLoss()
-optimizer = optim.Adam(model.parameters(), lr=3e-6)
-=======
 transformer = [
     transforms.Resize(256), 
     transforms.CenterCrop(224),
@@ -31,18 +27,17 @@ train_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, trainloader = train_dataloader("../random_augmented_dataset_v3/train")
+_, trainloader = train_dataloader("../random_augmented_dataset_v5/train")
 
 # Validation loader
 valid_dataloader = Load(
         transformer,
         num_workers=20,
         batch_size=128)
-_, valloader = valid_dataloader("../random_augmented_dataset_v3/valid")
+_, valloader = valid_dataloader("../random_augmented_dataset_v5/valid")
 
 criterion = FocalLoss()
-optimizer = optim.Adam(model.parameters(), lr=1e-6)
->>>>>>> a0953e0 (finished)
+optimizer = optim.Adam(model.parameters(), lr=3e-6)
 
 # Init Trainer
 trainer = Trainer(
@@ -52,21 +47,41 @@ trainer = Trainer(
         device=device,
         )
 
-<<<<<<< HEAD
-trainer.load("./saved_models/test_01.obj")
-trainer.loss_graph()
-trainer.f1_graph()
-=======
-trainer.load('./saved_models/test_01.obj')
-
 # Train
+
+
 trainer.train(
-        1000,
+        30,
         trainloader,
         valloader,
         autosave_params={
             'use_autosave': True,
-            'save_dir': './saved_models/test_01.obj',
+            'save_dir': './saved_models/test_13.obj',
             },
         )
->>>>>>> a0953e0 (finished)
+
+trainer.optimizer.param_groups[0]['lr'] = 2e-6
+
+trainer.train(
+        50,
+        trainloader,
+        valloader,
+        autosave_params={
+            'use_autosave': True,
+            'save_dir': './saved_models/test_13.obj',
+            },
+        )
+
+trainer.optimizer.param_groups[0]['lr'] = 1e-6
+
+trainer.train(
+        120,
+        trainloader,
+        valloader,
+        autosave_params={
+            'use_autosave': True,
+            'save_dir': './saved_models/test_13.obj',
+            },
+        )
+
+trainer.save("./saved_models/test_13.obj")
