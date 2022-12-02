@@ -7,6 +7,7 @@ import seaborn as sns
 plt.rcParams['figure.figsize'] = [10, 8]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 table = pd.DataFrame({'x' : [180, 200, 274, 296, 356, 458],
                       'y' : [100,180,274,256,269,299],
                       'count' : [12,15,16,17,35,56]})
@@ -31,6 +32,11 @@ table = pd.DataFrame({'x' : [180, 200, 274, 296, 356, 458],
                       'count' : [12,15,16,17,35,56]})
 >>>>>>> 29e553f (Update heatmap)
 >>>>>>> jaehyun
+=======
+table = pd.DataFrame({'x' : [180, 200, 274, 296, 356, 458],
+                      'y' : [100,180,274,256,269,299],
+                      'count' : [12,15,16,17,35,56]})
+>>>>>>> 6b5d6aa (finished fixing conflicts)
 
 # 내 코드에 맞출려면 전체 파일가지고 일단 count구하고,
 # x y는 중복되는거 제외해야지 , 그리고 for문 쓰고 xy일치하는 값을 count의 원소로 투입 
